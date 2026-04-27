@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  distDir: "/tmp/next-dist",
+  turbopack: {
+    root: process.cwd(),
+  },
   reactCompiler: true,
 };
 
