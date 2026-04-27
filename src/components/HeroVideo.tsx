@@ -26,10 +26,10 @@ export default function HeroVideo() {
           {/* Main text content */}
           <div className="text-center mb-12">
             <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-3 md:mb-4 drop-shadow-lg">
-              JP Tech — Electronics for Rwanda
+              The "All-in-One" Approach
             </h1>
-            <p className="text-sm md:text-lg lg:text-2xl text-gray-200 mb-6 md:mb-8 max-w-2xl mx-auto">
-              Your trusted marketplace for quality electronics
+            <p className="text-sm md:text-lg lg:text-2xl text-gray-200 mb-6 md:mb-8 max-w-3xl mx-auto">
+              JP Tech — Quality Electronics. Reliable Service. Rwanda's Premier Tech & Repair Hub. need new & need to repair your device
             </p>
 
             {/* Buttons */}

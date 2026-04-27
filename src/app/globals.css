@@ -11,6 +11,7 @@
   --color-beige-light: #faf8f3;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-share-tech-mono: var(--font-share-tech-mono);
 }
 
 :root {
@@ -30,6 +31,7 @@ body {
 .bg-vibrant { background: var(--color-vibrant); }
 .bg-beige { background-color: var(--color-beige); }
 .bg-beige-light { background-color: var(--color-beige-light); }
+.font-share-tech-mono { font-family: var(--font-share-tech-mono); }
 
 /* Product card hover effects */
 .product-card {

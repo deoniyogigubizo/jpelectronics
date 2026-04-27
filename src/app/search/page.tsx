@@ -224,7 +224,7 @@ export default function SearchPage() {
                       <h4 className="font-semibold text-black text-sm line-clamp-2 mb-1">
                         {product.name.en}
                       </h4>
-                      <span className="text-gold font-bold text-sm">
+                      <span className="text-gold font-bold text-sm" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                         {product.price.toLocaleString()} RWF
                       </span>
                     </div>
@@ -262,11 +262,11 @@ export default function SearchPage() {
                       {product.name.en}
                     </h3>
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-lg font-bold text-gold">
+                      <span className="text-lg font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                         {product.price.toLocaleString()} RWF
                       </span>
                       {product.compareAtPrice && (
-                        <span className="text-sm text-gray-400 line-through">
+                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                           {product.compareAtPrice.toLocaleString()} RWF
                         </span>
                       )}

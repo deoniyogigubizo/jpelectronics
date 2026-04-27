@@ -33,7 +33,7 @@ function ProductGrid({ products }: { products: Product[] }) {
                   <p className="text-xs text-gray-500">{product.brand}</p>
                   <h3 className="font-medium text-sm">{product.name.en}</h3>
                   <p className="text-xs text-gray-600">{product.description?.en?.substring(0, 50)}...</p>
-                  <p className="text-sm font-bold text-gold">{formatPrice(product.price)}</p>
+                  <p className="text-sm font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>{formatPrice(product.price)}</p>
                 </div>
                 {isTall && (
                   <button className="mt-1 w-full bg-yellow-500/20 text-yellow-700 py-2 rounded border border-yellow-500/30">Shop Now</button>

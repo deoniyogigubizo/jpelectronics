@@ -88,11 +88,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Price */}
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-lg font-bold text-gold">
+            <span className="text-lg font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
               {formatPrice(product.price)}
             </span>
             {product.compareAtPrice && product.compareAtPrice > product.price && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                 {formatPrice(product.compareAtPrice)}
               </span>
             )}

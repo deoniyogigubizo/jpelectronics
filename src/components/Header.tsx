@@ -167,7 +167,7 @@ export default function Header() {
               <Store className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-black">JP Tech</h1>
+              <h1 className="text-xl font-bold font-share-tech-mono text-black">JP Tech</h1>
               <p className="text-xs text-gray-500 hidden sm:block">Electronics Rwanda</p>
             </div>
           </Link>
@@ -306,10 +306,10 @@ export default function Header() {
             <div className="flex items-center">
               <button
                 onClick={handleWhatsAppClick}
-                className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center gap-2 bg-green-500 bg-opacity-80 hover:bg-green-600 text-white px-2 py-1 rounded-lg transition-colors"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span className="text-sm font-medium">Talk to Owner</span>
+                <span className="text-xs font-medium">Talk to Owner</span>
               </button>
             </div>
           </div>
@@ -327,7 +327,7 @@ export default function Header() {
                   <div className="w-8 h-8 bg-vibrant rounded-lg flex items-center justify-center">
                     <Store className="w-5 h-5 text-white" />
                   </div>
-                  <span className="font-bold text-lg">JP Tech</span>
+                  <span className="font-bold font-share-tech-mono text-lg">JP Tech</span>
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}

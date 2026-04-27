@@ -28,10 +28,10 @@ function AlmostGonePanel({ products }: { products: any[] }) {
   };
 
   return (
-    <section className="py-12 bg-red-50 border-l-4 border-red-500">
+    <section className="py-2 bg-red-50 border-l-4 border-red-500">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-red-700">Only a few left in stock — order soon!</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-red-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Only a few left in stock — order soon!</h2>
         </div>
 
         {/* Mobile layout */}
@@ -65,11 +65,11 @@ function AlmostGonePanel({ products }: { products: any[] }) {
                   {(product.description?.en || '').substring(0, 60)}...
                 </p>
                 <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-gold">
+                  <span className="text-xs font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                     {formatPrice(product.price)}
                   </span>
                   {product.compareAtPrice && product.compareAtPrice > product.price && (
-                    <span className="text-xs text-gray-400 line-through">
+                    <span className="text-xs text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                       {formatPrice(product.compareAtPrice)}
                     </span>
                   )}
@@ -110,11 +110,11 @@ function AlmostGonePanel({ products }: { products: any[] }) {
                 {heroProduct.description?.en || 'No description available'}
               </p>
               <div className="mb-3">
-                <span className="text-lg font-bold text-gold">
+                <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                   {formatPrice(heroProduct.price)}
                 </span>
                 {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                  <span className="text-sm text-gray-400 line-through ml-2">
+                  <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                     {formatPrice(heroProduct.compareAtPrice)}
                   </span>
                 )}
@@ -155,16 +155,16 @@ function AlmostGonePanel({ products }: { products: any[] }) {
                   <p className="text-xs text-gray-600 mb-1 line-clamp-2">
                     {(product.description?.en || '').substring(0, 60)}...
                   </p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-bold text-gold">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.compareAtPrice && product.compareAtPrice > product.price && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPrice(product.compareAtPrice)}
-                      </span>
-                    )}
-                  </div>
+                 <div className="flex items-center gap-1">
+                   <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                     {formatPrice(product.price)}
+                   </span>
+                   {product.compareAtPrice && product.compareAtPrice > product.price && (
+                     <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                       {formatPrice(product.compareAtPrice)}
+                     </span>
+                   )}
+                 </div>
                 </div>
               </div>
             ))}
@@ -195,10 +195,10 @@ function PriceJustDroppedPanel({ products }: { products: any[] }) {
   };
 
   return (
-    <section className="py-12 bg-green-50">
+    <section className="py-2 bg-green-50">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-700">Price Just Dropped</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-green-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Price Just Dropped</h2>
         </div>
         <p className="text-gray-600 mb-6">Limited-time price reductions — save now before they go back up</p>
 
@@ -279,16 +279,16 @@ function PriceJustDroppedPanel({ products }: { products: any[] }) {
                   <p className="text-xs text-gray-600 mb-1 line-clamp-2">
                     {(product.description?.en || '').substring(0, 60)}...
                   </p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-bold text-gold">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.compareAtPrice && product.compareAtPrice > product.price && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPrice(product.compareAtPrice)}
-                      </span>
-                    )}
-                  </div>
+                 <div className="flex items-center gap-1">
+                   <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                     {formatPrice(product.price)}
+                   </span>
+                   {product.compareAtPrice && product.compareAtPrice > product.price && (
+                     <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                       {formatPrice(product.compareAtPrice)}
+                     </span>
+                   )}
+                 </div>
                 </div>
               </div>
             ))}
@@ -363,10 +363,10 @@ function JustLandedPanel({ products }: { products: any[] }) {
   };
 
   return (
-    <section className="py-12 bg-green-50">
+    <section className="py-2 bg-green-50">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-700">Just Landed</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-green-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Just Landed</h2>
         </div>
 
         {/* Mobile layout */}
@@ -445,11 +445,11 @@ function JustLandedPanel({ products }: { products: any[] }) {
                 {heroProduct.description?.en || 'No description available'}
               </p>
               <div className="mb-3">
-                <span className="text-lg font-bold text-gold">
+                <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                   {formatPrice(heroProduct.price)}
                 </span>
                 {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                  <span className="text-sm text-gray-400 line-through ml-2">
+                  <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
                     {formatPrice(heroProduct.compareAtPrice)}
                   </span>
                 )}
@@ -490,16 +490,16 @@ function JustLandedPanel({ products }: { products: any[] }) {
                   <p className="text-xs text-gray-600 mb-1 line-clamp-2">
                     {(product.description?.en || '').substring(0, 60)}...
                   </p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-bold text-gold">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.compareAtPrice && product.compareAtPrice > product.price && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPrice(product.compareAtPrice)}
-                      </span>
-                    )}
-                  </div>
+                 <div className="flex items-center gap-1">
+                   <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                     {formatPrice(product.price)}
+                   </span>
+                   {product.compareAtPrice && product.compareAtPrice > product.price && (
+                     <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                       {formatPrice(product.compareAtPrice)}
+                     </span>
+                   )}
+                 </div>
                 </div>
               </div>
             ))}
@@ -517,10 +517,10 @@ function JustLandedPanel({ products }: { products: any[] }) {
 
 function LocallyPopularPanel() {
   return (
-    <section className="py-6 md:py-8 bg-green-50">
+    <section className="py-2 md:py-2 bg-green-50">
       <div className="container mx-auto px-4">
         <div className="mb-4 md:mb-6">
-          <h2 className="text-base md:text-xl font-bold text-green-700">Most Popular in Kigali</h2>
+          <h2 className="text-base md:text-xl font-bold text-green-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Most Popular in Kigali</h2>
         </div>
         <div className="bg-white rounded-lg p-3 md:p-4 shadow">
           <div className="md:grid md:grid-cols-3 md:gap-4">
@@ -575,11 +575,11 @@ function LocallyPopularPanel() {
 
 function EducationPanel() {
   return (
-    <section className="py-12 bg-yellow-50">
+    <section className="py-2 bg-yellow-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-3 mb-4">
           <AlertTriangle className="w-8 h-8 text-black" />
-          <h2 className="text-lg md:text-3xl font-bold text-yellow-700">Before You Buy</h2>
+          <h2 className="text-lg md:text-3xl font-bold text-yellow-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Before You Buy</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
@@ -616,7 +616,7 @@ export default async function HomePage() {
       <HeroVideo />
 
         {/* Category Tiles */}
-        <section className="py-1 md:py-4 bg-beige">
+        <section className="py-1 md:py-2 bg-beige">
           <div className="container mx-auto px-1 md:px-2">
             <h2 className="text-xs md:text-xl font-bold mb-1 md:mb-4 text-center">
               I am looking for
@@ -642,7 +642,7 @@ export default async function HomePage() {
       <LocallyPopularPanel />
 
       {/* Panel 5: Build Your Bundle */}
-      <section className="py-12 bg-green-50">
+      <section className="py-2 bg-green-50">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-green-700">Build Your Bundle</h2>
@@ -700,11 +700,11 @@ export default async function HomePage() {
       <EducationPanel />
 
       {/* Panel 7: Upgrade Your Device */}
-      <section className="py-4 sm:py-8 bg-cyan-50">
+      <section className="py-2 sm:py-2 bg-cyan-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-3 mb-4 sm:mb-8">
             <Recycle className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-cyan-700">Upgrade Your Old Device</h2>
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-cyan-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Upgrade Your Old Device</h2>
           </div>
           <div className="bg-white rounded-lg p-3 sm:p-6 shadow flex flex-col md:flex-row items-center gap-4 sm:gap-6">
             <div className="flex-1">
@@ -733,11 +733,11 @@ export default async function HomePage() {
       </section>
 
       {/* Panel 8: Community Picked */}
-      <section className="py-4 bg-teal-50">
+      <section className="py-2 bg-teal-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-2 mb-4">
             <Users className="w-6 h-6 text-teal-600" />
-            <h2 className="text-lg md:text-xl font-bold text-teal-700">📊 Community Picked</h2>
+            <h2 className="text-lg md:text-xl font-bold text-teal-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>📊 Community Picked</h2>
           </div>
           <div className="bg-white rounded-lg p-4 shadow">
             <h3 className="text-lg font-bold mb-2">Which Laptop Should You Buy?</h3>
@@ -777,18 +777,18 @@ export default async function HomePage() {
       </section>
 
       {/* Product Grid */}
-      <section className="py-8 bg-gradient-to-r from-pink-50 to-rose-50">
+      <section className="py-2 bg-gradient-to-r from-pink-50 to-rose-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-rose-700 mb-8">Featured Products</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-rose-700 mb-8" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Featured Products</h2>
           <ProductGrid products={allProducts} />
         </div>
       </section>
 
       {/* Real Buyer Story */}
-      <section className="py-6 bg-orange-50">
+      <section className="py-2 bg-orange-50">
         <div className="container mx-auto px-4">
           <div className="mb-4">
-            <h2 className="text-lg md:text-2xl font-bold text-orange-700">💬 Real Buyer Story</h2>
+            <h2 className="text-lg md:text-2xl font-bold text-orange-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>💬 Real Buyer Story</h2>
           </div>
           <div className="bg-white rounded-lg p-4 shadow max-w-2xl mx-auto">
             <div className="flex items-center gap-3 mb-3">
@@ -827,7 +827,7 @@ export default async function HomePage() {
       </section>
 
       {/* Trust Strip */}
-      <section className="bg-gradient-to-r from-black to-gray-800 text-white py-12">
+      <section className="bg-gradient-to-r from-black to-gray-800 text-white py-2">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div className="flex flex-col items-center gap-2">
