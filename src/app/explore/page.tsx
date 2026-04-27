@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
-import { getAllProducts } from '@/lib/db';
 import ProductCard from '@/components/ProductCard';
 import { ShoppingCart, Heart } from 'lucide-react';
 
@@ -14,7 +13,9 @@ export default function ExplorePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const allProducts = await getAllProducts();
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Failed to fetch');
+        const allProducts = await response.json();
         // Shuffle for discovery feel
         const shuffled = [...allProducts].sort(() => Math.random() - 0.5);
         setProducts(shuffled);
@@ -28,13 +29,7 @@ export default function ExplorePage() {
   }, []);
 
   const addToCart = (product: any) => {
-    addItem({
-      id: product._id,
-      name: product.name.en,
-      price: product.price,
-      image: product.images?.[0] || '',
-      quantity: 1
-    });
+    addItem(product._id, 1);
   };
 
   const trendingProducts = products.filter(p => p.discount > 0).slice(0, 8);

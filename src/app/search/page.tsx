@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useCart } from '@/context/CartContext';
-import { getAllProducts } from '@/lib/db';
 import { Search, Filter, X, ShoppingCart, Heart } from 'lucide-react';
 
 export default function SearchPage() {
@@ -22,7 +21,9 @@ export default function SearchPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const allProducts = await getAllProducts();
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Failed to fetch');
+        const allProducts = await response.json();
         setProducts(allProducts);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -81,13 +82,7 @@ export default function SearchPage() {
   }, [products]);
 
   const addToCart = (product: any) => {
-    addItem({
-      id: product._id,
-      name: product.name.en,
-      price: product.price,
-      image: product.images?.[0] || '',
-      quantity: 1
-    });
+    addItem(product._id, 1);
   };
 
   const clearFilters = () => {
