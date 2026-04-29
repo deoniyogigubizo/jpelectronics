@@ -838,7 +838,7 @@ export default async function HomePage() {
             <div className="flex flex-col items-center gap-2">
               <MessageCircle className="w-8 h-8 text-yellow-400" />
               <h3 className="font-semibold">WhatsApp Support</h3>
-              <p className="text-sm text-gray-400">+250 788 688 374</p>
+              <p className="text-sm text-gray-400">+250 790 336 683</p>
             </div>
             <div className="flex flex-col items-center gap-2">
               <Shield className="w-8 h-8 text-yellow-400" />

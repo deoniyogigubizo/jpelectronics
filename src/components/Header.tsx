@@ -134,7 +134,7 @@ export default function Header() {
   };
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/250788688374', '_blank');
+    window.open('https://wa.me/250790336683', '_blank');
   };
 
   return (
@@ -148,7 +148,7 @@ export default function Header() {
               {t('trust.delivery')}: Konombe-mubusanza & surrounding areas
             </span>
             <span className="flex items-center gap-1">
-              💬 {t('trust.whatsapp')}: +250 788 688 374
+              💬 {t('trust.whatsapp')}: +250 790 336 683
             </span>
           </div>
           <div className="flex gap-4">
@@ -419,7 +419,7 @@ export default function Header() {
                     </button>
                     <div className="text-sm text-gray-600 mt-2">
                       <p>📍 Konombe-mubusanza & surrounding areas</p>
-                      <p>📞 +250 788 688 374</p>
+                      <p>📞 +250 790 336 683</p>
                     </div>
                   </div>
                 </div>

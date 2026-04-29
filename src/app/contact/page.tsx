@@ -65,18 +65,18 @@ export default function ContactPage() {
                     <div className="space-y-4">
                        <div className="flex items-center gap-3">
                          <Phone className="w-5 h-5 text-gold" />
-                         <div>
-                           <p className="font-medium">Phone</p>
-                           <p className="text-gray-600">+250 788 688 374</p>
-                           <p className="text-gray-600">+250 796 279 847</p>
-                         </div>
+                          <div>
+                            <p className="font-medium">Phone</p>
+                            <p className="text-gray-600">+250 790 336 683</p>
+                            <p className="text-gray-600">+250 796 279 847</p>
+                          </div>
                        </div>
                        <div className="flex items-center gap-3">
                          <MessageCircle className="w-5 h-5 text-gold" />
-                         <div>
-                           <p className="font-medium">WhatsApp</p>
-                           <p className="text-gray-600">+250 788 688 374</p>
-                         </div>
+                          <div>
+                            <p className="font-medium">WhatsApp</p>
+                            <p className="text-gray-600">+250 790 336 683</p>
+                          </div>
                        </div>
                        <div className="flex items-center gap-3">
                          <Mail className="w-5 h-5 text-gold" />

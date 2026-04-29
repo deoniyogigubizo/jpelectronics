@@ -62,7 +62,7 @@ export default function AdminDashboard() {
     price: '', stockQuantity: '', category: '', brand: '', images: [] as string[]
   });
   const [heroVideo, setHeroVideo] = useState('/video/videoo.mp4');
-  const [contactNumber, setContactNumber] = useState('+250 788 688 374');
+  const [contactNumber, setContactNumber] = useState('+250 790 336 683');
 
   useEffect(() => {
     const isAdmin = localStorage.getItem('jptech-admin');
@@ -1210,7 +1210,7 @@ export default function AdminDashboard() {
                   <label className="block text-sm md:text-base font-medium text-gray-600 mb-2">Phone</label>
                   <input
                     type="tel"
-                    defaultValue="+250 788 688 374"
+                    defaultValue="+250 790 336 683"
                     className="w-full border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   />
                 </div>
