@@ -150,3 +150,8 @@ export async function createCategory(data: { name: { en: string; rw: string }; s
   });
   return result.insertedId;
 }
+
+export async function deleteCategory(id: string) {
+  const db = await connectToDatabase();
+  return db.collection('categories').deleteOne({ _id: new ObjectId(id) });
+}

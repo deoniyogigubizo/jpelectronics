@@ -32,7 +32,7 @@ export default function Header() {
     {
       name: 'Smartphones',
       slug: 'phones',
-      description: 'Latest smartphones from top brands',
+      description: 'Gets Latest smartphones from top brands',
       items: ['iPhone', 'Samsung Galaxy', 'Google Pixel', 'OnePlus', 'Accessories']
     },
     {
@@ -76,14 +76,14 @@ export default function Header() {
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const currentCategory = categories[currentIndex];
-    let currentText = 'I am looking for ';
+    let currentText = 'I am looking for ..';
     let isTyping = true;
     let charIndex = 0;
 
     const typeText = () => {
       if (isTyping) {
         if (charIndex < currentCategory.length) {
-          currentText = 'I am looking for ' + currentCategory.substring(0, charIndex + 1);
+          currentText = 'I am looking for ..' + currentCategory.substring(0, charIndex + 1);
           setPlaceholderText(currentText);
           charIndex++;
           timeoutId = setTimeout(typeText, 100);
@@ -96,7 +96,7 @@ export default function Header() {
         }
       } else {
         if (charIndex > 0) {
-          currentText = 'I am looking for ' + currentCategory.substring(0, charIndex - 1);
+          currentText = 'I am looking for ..' + currentCategory.substring(0, charIndex - 1);
           setPlaceholderText(currentText);
           charIndex--;
           timeoutId = setTimeout(typeText, 50);
@@ -163,9 +163,7 @@ export default function Header() {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-vibrant rounded-lg flex items-center justify-center">
-              <Store className="w-6 h-6 text-white" />
-            </div>
+            <img src="/logo/logo.svg" alt="JP Tech Logo" className="w-10 h-10" />
             <div>
               <h1 className="text-xl font-bold font-share-tech-mono text-black">JP Tech</h1>
               <p className="text-xs text-gray-500 hidden sm:block">Electronics Rwanda</p>
@@ -324,9 +322,7 @@ export default function Header() {
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-200">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-vibrant rounded-lg flex items-center justify-center">
-                    <Store className="w-5 h-5 text-white" />
-                  </div>
+                  <img src="/logo/logo.svg" alt="JP Tech Logo" className="w-8 h-8" />
                   <span className="font-bold font-share-tech-mono text-lg">JP Tech</span>
                 </div>
                 <button
