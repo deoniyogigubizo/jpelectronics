@@ -83,7 +83,11 @@ export interface User {
   email: string;
   password: string;
   name: string;
-  role: 'admin' | 'staff';
+  phone?: string;
+  district?: string;
+  sector?: string;
+  address?: string;
+  role: 'customer' | 'admin' | 'staff';
   createdAt: Date;
 }
 

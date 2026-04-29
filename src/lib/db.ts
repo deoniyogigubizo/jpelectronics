@@ -155,3 +155,72 @@ export async function deleteCategory(id: string) {
   const db = await connectToDatabase();
   return db.collection('categories').deleteOne({ _id: new ObjectId(id) });
 }
+
+export interface UserWithPassword {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  district?: string;
+  sector?: string;
+  address?: string;
+  role: 'customer' | 'admin' | 'staff';
+  createdAt: Date;
+}
+
+export async function getUserByEmail(email: string): Promise<Omit<UserWithPassword, 'password'> | null> {
+  const db = await connectToDatabase();
+  const user = await db.collection('users').findOne({ email });
+  if (!user) return null;
+
+  return {
+    _id: user._id.toString(),
+    name: user.name as string,
+    email: user.email as string,
+    phone: user.phone as string | undefined,
+    district: user.district as string | undefined,
+    sector: user.sector as string | undefined,
+    address: user.address as string | undefined,
+    role: user.role as 'customer' | 'admin' | 'staff',
+    createdAt: user.createdAt as Date,
+  };
+}
+
+export async function getUserByEmailWithPassword(email: string): Promise<UserWithPassword | null> {
+  const db = await connectToDatabase();
+  const user = await db.collection('users').findOne({ email });
+  if (!user) return null;
+
+  return {
+    _id: user._id.toString(),
+    name: user.name as string,
+    email: user.email as string,
+    password: user.password as string,
+    phone: user.phone as string | undefined,
+    district: user.district as string | undefined,
+    sector: user.sector as string | undefined,
+    address: user.address as string | undefined,
+    role: user.role as 'customer' | 'admin' | 'staff',
+    createdAt: user.createdAt as Date,
+  };
+}
+
+export async function createUser(data: {
+  name: string;
+  email: string;
+  phone?: string;
+  district?: string;
+  sector?: string;
+  address?: string;
+  password: string;
+  role: 'customer' | 'admin' | 'staff';
+}) {
+  const db = await connectToDatabase();
+  const user = {
+    ...data,
+    createdAt: new Date(),
+  };
+  const result = await db.collection('users').insertOne(user);
+  return result.insertedId;
+}

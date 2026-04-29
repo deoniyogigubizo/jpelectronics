@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
-import { LanguageProvider } from '@/context/LanguageContext';
-import { CartProvider } from '@/context/CartContext';
+import { Providers } from '@/components/Providers';
 import BottomNavbar from '@/components/BottomNavbar';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
@@ -36,15 +35,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${shareTechMono.variable} antialiased`}>
-        <LanguageProvider>
-          <CartProvider>
-            <div className="min-h-screen pb-20 md:pb-0">
-              {children}
-            </div>
-            <BottomNavbar />
-            <WhatsAppIcon />
-          </CartProvider>
-        </LanguageProvider>
+        <Providers>
+          <div className="min-h-screen pb-20 md:pb-0">
+            {children}
+          </div>
+          <BottomNavbar />
+          <WhatsAppIcon />
+        </Providers>
       </body>
     </html>
   );

@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Block admin and API routes from search engines
+Disallow: /admin/
+Disallow: /api/
+Disallow: /profile
+Disallow: /checkout
+Disallow: /cart
+
+# Allow all static assets
+Allow: /_next/static/
+Allow: /favicon.ico
+Allow: /robots.txt
+Allow: /sitemap.xml
+
+# Crawl delay for better performance
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://jpelectronics.vercel.app/sitemap.xml

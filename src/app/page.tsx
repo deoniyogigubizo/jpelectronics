@@ -37,98 +37,8 @@ function AlmostGonePanel({ products }: { products: any[] }) {
         {/* Mobile layout */}
         <div className="md:hidden grid grid-cols-2 gap-2">
           {almostGone.slice(0, 4).map((product) => (
-            <div key={product._id} className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-              <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                {product.images && product.images.length > 0 ? (
-                  <img
-                    src={product.images[0]}
-                    alt={product.name.en}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <ShoppingCart className="w-6 h-6" />
-                  </div>
-                )}
-                <span className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full">
-                  {product.stockQuantity} left
-                </span>
-              </div>
-              <div className="p-2">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                  {product.brand}
-                </p>
-                <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                  {product.name.en}
-                </h4>
-                <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                  {(product.description?.en || '').substring(0, 60)}...
-                </p>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                    {formatPrice(product.price)}
-                  </span>
-                  {product.compareAtPrice && product.compareAtPrice > product.price && (
-                    <span className="text-xs text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                      {formatPrice(product.compareAtPrice)}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[20%_80%] gap-6">
-          {/* Left Column: Tall Hero Card */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
-            <div className="relative aspect-[3/4] overflow-hidden bg-beige">
-              {heroProduct.images && heroProduct.images.length > 0 ? (
-                <img
-                  src={heroProduct.images[0]}
-                  alt={heroProduct.name.en}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <ShoppingCart className="w-12 h-12" />
-                </div>
-              )}
-              <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                {heroProduct.stockQuantity} left
-              </span>
-            </div>
-            <div className="p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
-                {heroProduct.brand}
-              </p>
-              <h3 className="font-semibold text-black mb-2 text-base">
-                {heroProduct.name.en}
-              </h3>
-              <p className="text-gray-600 mb-3 text-xs leading-relaxed">
-                {heroProduct.description?.en || 'No description available'}
-              </p>
-              <div className="mb-3">
-                <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                  {formatPrice(heroProduct.price)}
-                </span>
-                {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                  <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                    {formatPrice(heroProduct.compareAtPrice)}
-                  </span>
-                )}
-              </div>
-              <button className="w-full py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors text-sm">
-                Shop Now - Limited Stock!
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Gallery Grid */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2">
-            {galleryProducts.map((product) => (
-              <div key={product._id} className="bg-white rounded-lg overflow-hidden shadow-md group relative">
+            <Link key={product._id} href={`/product/${product._id}`}>
+              <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
                 <div className="relative aspect-[3/2] overflow-hidden bg-beige">
                   {product.images && product.images.length > 0 ? (
                     <img
@@ -155,18 +65,114 @@ function AlmostGonePanel({ products }: { products: any[] }) {
                   <p className="text-xs text-gray-600 mb-1 line-clamp-2">
                     {(product.description?.en || '').substring(0, 60)}...
                   </p>
-                 <div className="flex items-center gap-1">
-                   <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                     {formatPrice(product.price)}
-                   </span>
-                   {product.compareAtPrice && product.compareAtPrice > product.price && (
-                     <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                       {formatPrice(product.compareAtPrice)}
-                     </span>
-                   )}
-                 </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.compareAtPrice && product.compareAtPrice > product.price && (
+                      <span className="text-xs text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                        {formatPrice(product.compareAtPrice)}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden md:grid grid-cols-[20%_80%] gap-6">
+          {/* Left Column: Tall Hero Card */}
+          <Link href={`/product/${heroProduct._id}`}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
+              <div className="relative aspect-[3/4] overflow-hidden bg-beige">
+                {heroProduct.images && heroProduct.images.length > 0 ? (
+                  <img
+                    src={heroProduct.images[0]}
+                    alt={heroProduct.name.en}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    <ShoppingCart className="w-12 h-12" />
+                  </div>
+                )}
+                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                  {heroProduct.stockQuantity} left
+                </span>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
+                  {heroProduct.brand}
+                </p>
+                <h3 className="font-semibold text-black mb-2 text-base">
+                  {heroProduct.name.en}
+                </h3>
+                <p className="text-gray-600 mb-3 text-xs leading-relaxed">
+                  {heroProduct.description?.en || 'No description available'}
+                </p>
+                <div className="mb-3">
+                  <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                    {formatPrice(heroProduct.price)}
+                  </span>
+                  {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
+                    <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                      {formatPrice(heroProduct.compareAtPrice)}
+                    </span>
+                  )}
+                </div>
+                <button className="w-full py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors text-sm">
+                  Shop Now - Limited Stock!
+                </button>
+              </div>
+            </div>
+          </Link>
+
+          {/* Right Column: Gallery Grid */}
+          <div className="grid grid-cols-4 grid-rows-2 gap-2">
+            {galleryProducts.map((product) => (
+              <Link key={product._id} href={`/product/${product._id}`}>
+                <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
+                  <div className="relative aspect-[3/2] overflow-hidden bg-beige">
+                    {product.images && product.images.length > 0 ? (
+                      <img
+                        src={product.images[0]}
+                        alt={product.name.en}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <ShoppingCart className="w-6 h-6" />
+                      </div>
+                    )}
+                    <span className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full">
+                      {product.stockQuantity} left
+                    </span>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                      {product.brand}
+                    </p>
+                    <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
+                      {product.name.en}
+                    </h4>
+                    <p className="text-xs text-gray-600 mb-1 line-clamp-2">
+                      {(product.description?.en || '').substring(0, 60)}...
+                    </p>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                        {formatPrice(product.price)}
+                      </span>
+                      {product.compareAtPrice && product.compareAtPrice > product.price && (
+                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                          {formatPrice(product.compareAtPrice)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -205,54 +211,8 @@ function PriceJustDroppedPanel({ products }: { products: any[] }) {
         {/* Mobile layout */}
         <div className="md:hidden grid grid-cols-2 gap-2">
           {dropped.slice(0, 4).map((product) => (
-            <div key={product._id} className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-              <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                {product.images && product.images.length > 0 ? (
-                  <img
-                    src={product.images[0]}
-                    alt={product.name.en}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <ShoppingCart className="w-6 h-6" />
-                  </div>
-                )}
-                <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                  -{product.discount}%
-                </div>
-              </div>
-              <div className="p-2">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                  {product.brand}
-                </p>
-                <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                  {product.name.en}
-                </h4>
-                <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                  {(product.description?.en || '').substring(0, 60)}...
-                </p>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-gold">
-                    {formatPrice(product.price)}
-                  </span>
-                  {product.compareAtPrice && product.compareAtPrice > product.price && (
-                    <span className="text-xs text-gray-400 line-through">
-                      {formatPrice(product.compareAtPrice)}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[80%_20%] gap-6">
-          {/* Left Column: Gallery Grid */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2">
-            {galleryProducts.map((product) => (
-              <div key={product._id} className="bg-white rounded-lg overflow-hidden shadow-md group relative">
+            <Link key={product._id} href={`/product/${product._id}`}>
+              <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
                 <div className="relative aspect-[3/2] overflow-hidden bg-beige">
                   {product.images && product.images.length > 0 ? (
                     <img
@@ -279,64 +239,116 @@ function PriceJustDroppedPanel({ products }: { products: any[] }) {
                   <p className="text-xs text-gray-600 mb-1 line-clamp-2">
                     {(product.description?.en || '').substring(0, 60)}...
                   </p>
-                 <div className="flex items-center gap-1">
-                   <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                     {formatPrice(product.price)}
-                   </span>
-                   {product.compareAtPrice && product.compareAtPrice > product.price && (
-                     <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                       {formatPrice(product.compareAtPrice)}
-                     </span>
-                   )}
-                 </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-bold text-gold">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.compareAtPrice && product.compareAtPrice > product.price && (
+                      <span className="text-xs text-gray-400 line-through">
+                        {formatPrice(product.compareAtPrice)}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden md:grid grid-cols-[80%_20%] gap-6">
+          {/* Left Column: Gallery Grid */}
+          <div className="grid grid-cols-4 grid-rows-2 gap-2">
+            {galleryProducts.map((product) => (
+              <Link key={product._id} href={`/product/${product._id}`}>
+                <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
+                  <div className="relative aspect-[3/2] overflow-hidden bg-beige">
+                    {product.images && product.images.length > 0 ? (
+                      <img
+                        src={product.images[0]}
+                        alt={product.name.en}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <ShoppingCart className="w-6 h-6" />
+                      </div>
+                    )}
+                    <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                      -{product.discount}%
+                    </div>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                      {product.brand}
+                    </p>
+                    <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
+                      {product.name.en}
+                    </h4>
+                    <p className="text-xs text-gray-600 mb-1 line-clamp-2">
+                      {(product.description?.en || '').substring(0, 60)}...
+                    </p>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                        {formatPrice(product.price)}
+                      </span>
+                      {product.compareAtPrice && product.compareAtPrice > product.price && (
+                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                          {formatPrice(product.compareAtPrice)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
 
           {/* Right Column: Tall Hero Card */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
-            <div className="relative aspect-[3/4] overflow-hidden bg-beige">
-              {heroProduct.images && heroProduct.images.length > 0 ? (
-                <img
-                  src={heroProduct.images[0]}
-                  alt={heroProduct.name.en}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <ShoppingCart className="w-12 h-12" />
-                </div>
-              )}
-              <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                -{heroProduct.discount}%
-              </div>
-            </div>
-            <div className="p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
-                {heroProduct.brand}
-              </p>
-              <h3 className="font-semibold text-black mb-2 text-base">
-                {heroProduct.name.en}
-              </h3>
-              <p className="text-gray-600 mb-3 text-xs leading-relaxed">
-                {heroProduct.description?.en || 'No description available'}
-              </p>
-              <div className="mb-3">
-                <span className="text-lg font-bold text-gold">
-                  {formatPrice(heroProduct.price)}
-                </span>
-                {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                  <span className="text-sm text-gray-400 line-through ml-2">
-                    {formatPrice(heroProduct.compareAtPrice)}
-                  </span>
+          <Link href={`/product/${heroProduct._id}`}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
+              <div className="relative aspect-[3/4] overflow-hidden bg-beige">
+                {heroProduct.images && heroProduct.images.length > 0 ? (
+                  <img
+                    src={heroProduct.images[0]}
+                    alt={heroProduct.name.en}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    <ShoppingCart className="w-12 h-12" />
+                  </div>
                 )}
+                <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                  -{heroProduct.discount}%
+                </div>
               </div>
-              <button className="w-full py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
-                Shop Now - Limited Time!
-              </button>
+              <div className="p-4">
+                <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
+                  {heroProduct.brand}
+                </p>
+                <h3 className="font-semibold text-black mb-2 text-base">
+                  {heroProduct.name.en}
+                </h3>
+                <p className="text-gray-600 mb-3 text-xs leading-relaxed">
+                  {heroProduct.description?.en || 'No description available'}
+                </p>
+                <div className="mb-3">
+                  <span className="text-lg font-bold text-gold">
+                    {formatPrice(heroProduct.price)}
+                  </span>
+                  {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
+                    <span className="text-sm text-gray-400 line-through ml-2">
+                      {formatPrice(heroProduct.compareAtPrice)}
+                    </span>
+                  )}
+                </div>
+                <button className="w-full py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
+                  Shop Now - Limited Time!
+                </button>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="flex justify-end mt-4">
           <Link href="/category" className="text-xs border border-gold/50 text-gold px-3 py-1 rounded hover:bg-gold/10 transition-colors">
@@ -372,98 +384,8 @@ function JustLandedPanel({ products }: { products: any[] }) {
         {/* Mobile layout */}
         <div className="md:hidden grid grid-cols-2 gap-2">
           {newArrivals.slice(0, 4).map((product) => (
-            <div key={product._id} className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-              <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                {product.images && product.images.length > 0 ? (
-                  <img
-                    src={product.images[0]}
-                    alt={product.name.en}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <ShoppingCart className="w-6 h-6" />
-                  </div>
-                )}
-                <span className="absolute top-1 left-1 bg-green-500 text-white text-xs px-1 py-0.5 rounded">
-                  New Arrival
-                </span>
-              </div>
-              <div className="p-2">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                  {product.brand}
-                </p>
-                <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                  {product.name.en}
-                </h4>
-                <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                  {(product.description?.en || '').substring(0, 60)}...
-                </p>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-gold">
-                    {formatPrice(product.price)}
-                  </span>
-                  {product.compareAtPrice && product.compareAtPrice > product.price && (
-                    <span className="text-xs text-gray-400 line-through">
-                      {formatPrice(product.compareAtPrice)}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[20%_80%] gap-6">
-          {/* Left Column: Tall Hero Card */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
-            <div className="relative aspect-[3/4] overflow-hidden bg-beige">
-              {heroProduct.images && heroProduct.images.length > 0 ? (
-                <img
-                  src={heroProduct.images[0]}
-                  alt={heroProduct.name.en}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <ShoppingCart className="w-12 h-12" />
-                </div>
-              )}
-              <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                New Arrival
-              </span>
-            </div>
-            <div className="p-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
-                {heroProduct.brand}
-              </p>
-              <h3 className="font-semibold text-black mb-2 text-base">
-                {heroProduct.name.en}
-              </h3>
-              <p className="text-gray-600 mb-3 text-xs leading-relaxed">
-                {heroProduct.description?.en || 'No description available'}
-              </p>
-              <div className="mb-3">
-                <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                  {formatPrice(heroProduct.price)}
-                </span>
-                {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                  <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                    {formatPrice(heroProduct.compareAtPrice)}
-                  </span>
-                )}
-              </div>
-              <button className="w-full py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
-                Shop Now - New Arrival!
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Gallery Grid */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2">
-            {galleryProducts.map((product) => (
-              <div key={product._id} className="bg-white rounded-lg overflow-hidden shadow-md group relative">
+            <Link key={product._id} href={`/product/${product._id}`}>
+              <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
                 <div className="relative aspect-[3/2] overflow-hidden bg-beige">
                   {product.images && product.images.length > 0 ? (
                     <img
@@ -490,18 +412,114 @@ function JustLandedPanel({ products }: { products: any[] }) {
                   <p className="text-xs text-gray-600 mb-1 line-clamp-2">
                     {(product.description?.en || '').substring(0, 60)}...
                   </p>
-                 <div className="flex items-center gap-1">
-                   <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                     {formatPrice(product.price)}
-                   </span>
-                   {product.compareAtPrice && product.compareAtPrice > product.price && (
-                     <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                       {formatPrice(product.compareAtPrice)}
-                     </span>
-                   )}
-                 </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-bold text-gold">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.compareAtPrice && product.compareAtPrice > product.price && (
+                      <span className="text-xs text-gray-400 line-through">
+                        {formatPrice(product.compareAtPrice)}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden md:grid grid-cols-[20%_80%] gap-6">
+          {/* Left Column: Tall Hero Card */}
+          <Link href={`/product/${heroProduct._id}`}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
+              <div className="relative aspect-[3/4] overflow-hidden bg-beige">
+                {heroProduct.images && heroProduct.images.length > 0 ? (
+                  <img
+                    src={heroProduct.images[0]}
+                    alt={heroProduct.name.en}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    <ShoppingCart className="w-12 h-12" />
+                  </div>
+                )}
+                <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                  New Arrival
+                </span>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
+                  {heroProduct.brand}
+                </p>
+                <h3 className="font-semibold text-black mb-2 text-base">
+                  {heroProduct.name.en}
+                </h3>
+                <p className="text-gray-600 mb-3 text-xs leading-relaxed">
+                  {heroProduct.description?.en || 'No description available'}
+                </p>
+                <div className="mb-3">
+                  <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                    {formatPrice(heroProduct.price)}
+                  </span>
+                  {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
+                    <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                      {formatPrice(heroProduct.compareAtPrice)}
+                    </span>
+                  )}
+                </div>
+                <button className="w-full py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
+                  Shop Now - New Arrival!
+                </button>
+              </div>
+            </div>
+          </Link>
+
+          {/* Right Column: Gallery Grid */}
+          <div className="grid grid-cols-4 grid-rows-2 gap-2">
+            {galleryProducts.map((product) => (
+              <Link key={product._id} href={`/product/${product._id}`}>
+                <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
+                  <div className="relative aspect-[3/2] overflow-hidden bg-beige">
+                    {product.images && product.images.length > 0 ? (
+                      <img
+                        src={product.images[0]}
+                        alt={product.name.en}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <ShoppingCart className="w-6 h-6" />
+                      </div>
+                    )}
+                    <span className="absolute top-1 left-1 bg-green-500 text-white text-xs px-1 py-0.5 rounded">
+                      New Arrival
+                    </span>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                      {product.brand}
+                    </p>
+                    <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
+                      {product.name.en}
+                    </h4>
+                    <p className="text-xs text-gray-600 mb-1 line-clamp-2">
+                      {(product.description?.en || '').substring(0, 60)}...
+                    </p>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                        {formatPrice(product.price)}
+                      </span>
+                      {product.compareAtPrice && product.compareAtPrice > product.price && (
+                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
+                          {formatPrice(product.compareAtPrice)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
