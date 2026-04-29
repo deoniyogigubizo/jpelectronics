@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
@@ -11,11 +10,6 @@
     <lastmod>2026-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://jpelectronics.vercel.app/_next/image?url=%2Fhero-image.jpg&w=1200&q=75</image:loc>
-      <image:title>JP Electronics - Best Electronics Store in Rwanda | Jean Paul Ndayisenga</image:title>
-      <image:caption>Electronic components, smartphones, laptops, TVs, home appliances, solar power, and professional electronic repair services in Rwanda. JP Tech - Your trusted technology partner.</image:caption>
-    </image:image>
   </url>
 
   <!-- About Page -->
