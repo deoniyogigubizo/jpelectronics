@@ -63,34 +63,35 @@ export default function ContactPage() {
                   <div className="bg-white rounded-lg p-6 shadow">
                     <h3 className="font-bold text-xl mb-4">Get in Touch</h3>
                     <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Phone className="w-5 h-5 text-gold" />
-                        <div>
-                          <p className="font-medium">Phone</p>
-                          <p className="text-gray-600">+250 788 123 456</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <MessageCircle className="w-5 h-5 text-gold" />
-                        <div>
-                          <p className="font-medium">WhatsApp</p>
-                          <p className="text-gray-600">+250 788 123 456</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Mail className="w-5 h-5 text-gold" />
-                        <div>
-                          <p className="font-medium">Email</p>
-                          <p className="text-gray-600">info@jptech.rw</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <MapPin className="w-5 h-5 text-gold" />
-                        <div>
-                          <p className="font-medium">Address</p>
-                          <p className="text-gray-600">KG 123 St, Kimihurura, Kigali, Rwanda</p>
-                        </div>
-                      </div>
+                       <div className="flex items-center gap-3">
+                         <Phone className="w-5 h-5 text-gold" />
+                         <div>
+                           <p className="font-medium">Phone</p>
+                           <p className="text-gray-600">+250 788 688 374</p>
+                           <p className="text-gray-600">+250 796 279 847</p>
+                         </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                         <MessageCircle className="w-5 h-5 text-gold" />
+                         <div>
+                           <p className="font-medium">WhatsApp</p>
+                           <p className="text-gray-600">+250 788 688 374</p>
+                         </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                         <Mail className="w-5 h-5 text-gold" />
+                         <div>
+                           <p className="font-medium">Email</p>
+                           <p className="text-gray-600">Jndayisenga47@gmail.com</p>
+                         </div>
+                       </div>
+                       <div className="flex items-center gap-3">
+                         <MapPin className="w-5 h-5 text-gold" />
+                         <div>
+                           <p className="font-medium">Address</p>
+                           <p className="text-gray-600">Konombe-mubusanza, Rwanda</p>
+                         </div>
+                       </div>
                       <div className="flex items-center gap-3">
                         <Clock className="w-5 h-5 text-gold" />
                         <div>

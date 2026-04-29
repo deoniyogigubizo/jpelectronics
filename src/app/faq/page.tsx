@@ -76,7 +76,7 @@ export default function FAQPage() {
                 <h2 className="text-2xl font-bold mb-4">Still Need Help?</h2>
                 <p className="mb-6">Our support team is available 24/7 to assist you</p>
           <a
-            href="https://wa.me/250788123456"
+            href="https://wa.me/250788688374"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-gold text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors"

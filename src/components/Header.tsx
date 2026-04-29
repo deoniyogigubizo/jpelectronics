@@ -134,7 +134,7 @@ export default function Header() {
   };
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/250788123456', '_blank');
+    window.open('https://wa.me/250788688374', '_blank');
   };
 
   return (
@@ -145,10 +145,10 @@ export default function Header() {
           <div className="flex gap-4">
             <span className="flex items-center gap-1">
               <Store className="w-4 h-4" />
-              {t('trust.delivery')}: Kigali & surrounding areas
+              {t('trust.delivery')}: Konombe-mubusanza & surrounding areas
             </span>
             <span className="flex items-center gap-1">
-              💬 {t('trust.whatsapp')}: +250 788 123 456
+              💬 {t('trust.whatsapp')}: +250 788 688 374
             </span>
           </div>
           <div className="flex gap-4">
@@ -418,8 +418,8 @@ export default function Header() {
                       <span>Chat on WhatsApp</span>
                     </button>
                     <div className="text-sm text-gray-600 mt-2">
-                      <p>📍 Kigali & surrounding areas</p>
-                      <p>📞 +250 788 123 456</p>
+                      <p>📍 Konombe-mubusanza & surrounding areas</p>
+                      <p>📞 +250 788 688 374</p>
                     </div>
                   </div>
                 </div>

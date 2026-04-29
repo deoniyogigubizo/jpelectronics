@@ -38,7 +38,7 @@ export const translations = {
       title: 'Best Sellers',
     },
     trust: {
-      delivery: 'Delivery in Kigali',
+      delivery: 'Delivery in Konombe-mubusanza',
       cod: 'Cash on Delivery',
       warranty: 'Warranty',
       whatsapp: 'WhatsApp Support',
@@ -124,7 +124,7 @@ export const translations = {
       title: 'Ibicuruzwa Birushaho Gukoreshwa',
     },
     trust: {
-      delivery: 'Kohereza mu Kigali',
+      delivery: 'Kohereza mu Konombe-mubusanza',
       cod: 'Ishyura mu Mafaranga',
       warranty: 'Gukosora',
       whatsapp: 'Ubufasha kuri WhatsApp',

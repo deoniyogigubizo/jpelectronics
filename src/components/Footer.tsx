@@ -23,8 +23,8 @@ export default function Footer() {
             <p className="text-gray-400 text-sm mb-4">
               Your trusted electronics marketplace across Rwanda. Quality products, reliable delivery, excellent support.
             </p>
-            <p className="text-gold font-semibold">+250 788 123 456</p>
-            <p className="text-gray-400 text-sm">Kigali, Rwanda</p>
+            <p className="text-gold font-semibold">+250 788 688 374</p>
+            <p className="text-gray-400 text-sm">Konombe-mubusanza, Rwanda</p>
           </div>
 
           {/* Quick Links */}
@@ -57,15 +57,15 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-gold" />
-                <span>+250 788 123 456</span>
+                <span>+250 788 688 374</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-gold" />
-                <span>+250 782 987 654</span>
+                <span>+250 796 279 847</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-gold" />
-                <span>info@jptech.rw</span>
+                <span>Jndayisenga47@gmail.com</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-gold" />

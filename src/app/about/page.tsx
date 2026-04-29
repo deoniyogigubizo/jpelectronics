@@ -77,9 +77,10 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gold mb-4">Contact Numbers</h3>
-                    <p>Phone: +250 788 123 456</p>
-                    <p>WhatsApp: +250 788 123 456</p>
-                    <p>Email: info@jptech.rw</p>
+                    <p>Phone: +250 788 688 374</p>
+                    <p>Phone: +250 796 279 847</p>
+                    <p>WhatsApp: +250 788 688 374</p>
+                    <p>Email: Jndayisenga47@gmail.com</p>
                   </div>
                 </div>
               </div>

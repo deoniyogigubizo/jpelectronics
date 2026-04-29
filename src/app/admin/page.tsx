@@ -1,13 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 
 export default function AdminPage() {
   const router = useRouter();
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // If already logged in, redirect to dashboard
+    const isLoggedIn = localStorage.getItem('jptech-admin');
+    if (isLoggedIn) {
+      router.push('/admin/dashboard');
+    }
+  }, [router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +35,13 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center py-12 px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full relative">
+        <button
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 border-t border-b border-l-0 border-r-0 ml-4 mr-1 bg-transparent text-gray-600 p-1 text-sm"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </button>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">JP Tech Admin</h1>
           <p className="text-gray-600">Enter passcode to access admin portal</p>

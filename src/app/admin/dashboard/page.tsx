@@ -7,7 +7,7 @@ import {
   Plus, Minus, Edit, Trash2, Video, Phone,
   User, FolderPlus, FolderMinus, BarChart3,
   Activity, History, Truck, Settings, Camera,
-  Upload, Link as LinkIcon
+  Upload, Link as LinkIcon, ArrowLeft, Eye, Image
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -52,8 +52,17 @@ export default function AdminDashboard() {
   const [newCategory, setNewCategory] = useState({
     nameEn: '', nameRw: '', slug: '', image: ''
   });
+
+  // Modal states
+  const [viewProductModal, setViewProductModal] = useState(false);
+  const [changeImageModal, setChangeImageModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [editProduct, setEditProduct] = useState({
+    nameEn: '', nameRw: '', descriptionEn: '', descriptionRw: '', shortDescriptionEn: '', shortDescriptionRw: '',
+    price: '', stockQuantity: '', category: '', brand: '', images: [] as string[]
+  });
   const [heroVideo, setHeroVideo] = useState('/video/videoo.mp4');
-  const [contactNumber, setContactNumber] = useState('+250 788 123 456');
+  const [contactNumber, setContactNumber] = useState('+250 788 688 374');
 
   useEffect(() => {
     const isAdmin = localStorage.getItem('jptech-admin');
@@ -157,6 +166,85 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleViewProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setEditProduct({
+      nameEn: product.name.en,
+      nameRw: product.name.rw,
+      descriptionEn: product.description?.en || '',
+      descriptionRw: product.description?.rw || '',
+      shortDescriptionEn: product.shortDescription?.en || '',
+      shortDescriptionRw: product.shortDescription?.rw || '',
+      price: product.price.toString(),
+      stockQuantity: product.stockQuantity.toString(),
+      category: product.category,
+      brand: product.brand,
+      images: product.images || []
+    });
+    setViewProductModal(true);
+  };
+
+  const handleChangeImage = (product: Product) => {
+    setSelectedProduct(product);
+    setEditProduct(prev => ({ ...prev, images: product.images || [] }));
+    setChangeImageModal(true);
+  };
+
+  const handleUpdateProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProduct) return;
+
+    try {
+      const response = await fetch(`/api/products/${selectedProduct._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: { en: editProduct.nameEn, rw: editProduct.nameRw },
+          description: { en: editProduct.descriptionEn, rw: editProduct.descriptionRw },
+          shortDescription: { en: editProduct.shortDescriptionEn, rw: editProduct.shortDescriptionRw },
+          price: parseFloat(editProduct.price),
+          stockQuantity: parseInt(editProduct.stockQuantity),
+          category: editProduct.category,
+          brand: editProduct.brand,
+          images: editProduct.images,
+        })
+      });
+
+      if (response.ok) {
+        logAction('UPDATE_PRODUCT', { id: selectedProduct._id, name: editProduct.nameEn });
+        setViewProductModal(false);
+        fetchData();
+        alert('Product updated successfully!');
+      }
+    } catch (error) {
+      console.error('Failed to update product:', error);
+      alert('Failed to update product');
+    }
+  };
+
+  const handleUpdateProductImages = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProduct) return;
+
+    try {
+      const response = await fetch(`/api/products/${selectedProduct._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ images: editProduct.images })
+      });
+
+      if (response.ok) {
+        logAction('UPDATE_PRODUCT_IMAGES', { id: selectedProduct._id, name: selectedProduct.name.en, imageCount: editProduct.images.length });
+        setChangeImageModal(false);
+        fetchData();
+        alert('Product images updated successfully!');
+      }
+    } catch (error) {
+      console.error('Failed to update product images:', error);
+      alert('Failed to update product images');
+    }
+  };
+
   const handleUpdatePrice = async (productId: string, newPrice: number, productName: string) => {
     try {
       const response = await fetch(`/api/products/${productId}`, {
@@ -251,7 +339,15 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-beige flex flex-col">
       {/* Mobile Header */}
       <div className="bg-black text-white p-4 md:hidden flex justify-between items-center">
-        <h1 className="text-base font-bold text-gold">JP Tech Admin</h1>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className="border-t border-b border-l-0 border-r-0 ml-4 mr-1 bg-transparent text-white p-1 text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <h1 className="text-base font-bold text-gold">JP Tech Admin</h1>
+        </div>
         <button
           onClick={() => setActiveTab(activeTab === 'menu' ? 'overview' : 'menu')}
           className="text-white text-base p-2"
@@ -330,7 +426,15 @@ export default function AdminDashboard() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:block w-72 bg-black text-white min-h-screen">
         <div className="p-6">
-          <h2 className="text-xl font-bold text-gold">JP Tech Admin</h2>
+          <div className="flex items-center gap-2 mb-4">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className="border-t border-b border-l-0 border-r-0 ml-4 mr-1 bg-transparent text-white p-1 text-sm"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <h2 className="text-xl font-bold text-gold">JP Tech Admin</h2>
+          </div>
         </div>
         <nav className="mt-6 space-y-2">
           <button
@@ -498,7 +602,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Name (English)"
                   value={newProduct.nameEn}
-                  onChange={(e) => setNewProduct({...newProduct, nameEn: e.target.value})}
+                  onChange={(e) => setNewProduct({ ...newProduct, nameEn: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -506,7 +610,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Name (Kinyarwanda)"
                   value={newProduct.nameRw}
-                  onChange={(e) => setNewProduct({...newProduct, nameRw: e.target.value})}
+                  onChange={(e) => setNewProduct({ ...newProduct, nameRw: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -514,7 +618,7 @@ export default function AdminDashboard() {
                   type="number"
                   placeholder="Price"
                   value={newProduct.price}
-                  onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+                  onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -522,7 +626,7 @@ export default function AdminDashboard() {
                   type="number"
                   placeholder="Stock"
                   value={newProduct.stockQuantity}
-                  onChange={(e) => setNewProduct({...newProduct, stockQuantity: e.target.value})}
+                  onChange={(e) => setNewProduct({ ...newProduct, stockQuantity: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -530,7 +634,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Category"
                   value={newProduct.category}
-                  onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                  onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -538,7 +642,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Brand"
                   value={newProduct.brand}
-                  onChange={(e) => setNewProduct({...newProduct, brand: e.target.value})}
+                  onChange={(e) => setNewProduct({ ...newProduct, brand: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -550,9 +654,8 @@ export default function AdminDashboard() {
                     <button
                       type="button"
                       onClick={() => setImageOption('url')}
-                      className={`px-4 py-2 rounded text-sm md:text-base font-medium flex items-center gap-2 ${
-                        imageOption === 'url' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
-                      }`}
+                      className={`px-4 py-2 rounded text-sm md:text-base font-medium flex items-center gap-2 ${imageOption === 'url' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
+                        }`}
                     >
                       <LinkIcon className="w-4 h-4" />
                       URL
@@ -560,9 +663,8 @@ export default function AdminDashboard() {
                     <button
                       type="button"
                       onClick={() => setImageOption('camera')}
-                      className={`px-4 py-2 rounded text-sm md:text-base font-medium flex items-center gap-2 ${
-                        imageOption === 'camera' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
-                      }`}
+                      className={`px-4 py-2 rounded text-sm md:text-base font-medium flex items-center gap-2 ${imageOption === 'camera' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
+                        }`}
                     >
                       <Camera className="w-4 h-4" />
                       Camera
@@ -570,9 +672,8 @@ export default function AdminDashboard() {
                     <button
                       type="button"
                       onClick={() => setImageOption('upload')}
-                      className={`px-4 py-2 rounded text-sm md:text-base font-medium flex items-center gap-2 ${
-                        imageOption === 'upload' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
-                      }`}
+                      className={`px-4 py-2 rounded text-sm md:text-base font-medium flex items-center gap-2 ${imageOption === 'upload' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
+                        }`}
                     >
                       <Upload className="w-4 h-4" />
                       Upload
@@ -592,7 +693,7 @@ export default function AdminDashboard() {
                         type="button"
                         onClick={() => {
                           if (imageUrl.trim()) {
-                            setNewProduct({...newProduct, images: [...newProduct.images, imageUrl.trim()]});
+                            setNewProduct({ ...newProduct, images: [...newProduct.images, imageUrl.trim()] });
                             setImageUrl('');
                           }
                         }}
@@ -618,7 +719,7 @@ export default function AdminDashboard() {
                             const reader = new FileReader();
                             reader.onload = (e) => {
                               const dataUrl = e.target?.result as string;
-                              setNewProduct({...newProduct, images: [...newProduct.images, dataUrl]});
+                              setNewProduct({ ...newProduct, images: [...newProduct.images, dataUrl] });
                             };
                             reader.readAsDataURL(file);
                           }
@@ -641,7 +742,7 @@ export default function AdminDashboard() {
                             const reader = new FileReader();
                             reader.onload = (e) => {
                               const dataUrl = e.target?.result as string;
-                              setNewProduct({...newProduct, images: [...newProduct.images, dataUrl]});
+                              setNewProduct({ ...newProduct, images: [...newProduct.images, dataUrl] });
                             };
                             reader.readAsDataURL(file);
                           });
@@ -668,7 +769,7 @@ export default function AdminDashboard() {
                               type="button"
                               onClick={() => {
                                 const newImages = newProduct.images.filter((_, i) => i !== index);
-                                setNewProduct({...newProduct, images: newImages});
+                                setNewProduct({ ...newProduct, images: newImages });
                               }}
                               className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 md:w-7 md:h-7 text-sm md:text-base flex items-center justify-center hover:bg-red-600 transition-colors"
                             >
@@ -720,8 +821,27 @@ export default function AdminDashboard() {
                           className="border border-gray-300 p-2 rounded text-sm w-20"
                         />
                       </div>
-                      <div className="text-sm text-gray-600">
-                        Stock: <span className="font-semibold">{product.stockQuantity}</span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleViewProduct(product)}
+                          className="text-blue-500 hover:text-blue-700 p-2 hover:bg-blue-50 rounded"
+                          title="View/Edit Product"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={() => handleChangeImage(product)}
+                          className="text-green-500 hover:text-green-700 p-2 hover:bg-green-50 rounded"
+                          title="Change Product Image"
+                        >
+                          <Image className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteProduct(product._id, product.name.en)}
+                          className="text-red-500 hover:text-red-700 p-2"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -758,12 +878,28 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-6 py-4 text-base">{product.stockQuantity}</td>
                         <td className="px-6 py-4">
-                          <button
-                            onClick={() => handleDeleteProduct(product._id, product.name.en)}
-                            className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded transition-colors"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleViewProduct(product)}
+                              className="text-blue-500 hover:text-blue-700 p-2 hover:bg-blue-50 rounded transition-colors"
+                              title="View/Edit Product"
+                            >
+                              <Eye className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={() => handleChangeImage(product)}
+                              className="text-green-500 hover:text-green-700 p-2 hover:bg-green-50 rounded transition-colors"
+                              title="Change Product Image"
+                            >
+                              <Image className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteProduct(product._id, product.name.en)}
+                              className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded transition-colors"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -786,7 +922,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Name (English)"
                   value={newCategory.nameEn}
-                  onChange={(e) => setNewCategory({...newCategory, nameEn: e.target.value})}
+                  onChange={(e) => setNewCategory({ ...newCategory, nameEn: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -794,7 +930,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Name (Kinyarwanda)"
                   value={newCategory.nameRw}
-                  onChange={(e) => setNewCategory({...newCategory, nameRw: e.target.value})}
+                  onChange={(e) => setNewCategory({ ...newCategory, nameRw: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -802,7 +938,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Slug"
                   value={newCategory.slug}
-                  onChange={(e) => setNewCategory({...newCategory, slug: e.target.value})}
+                  onChange={(e) => setNewCategory({ ...newCategory, slug: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -810,7 +946,7 @@ export default function AdminDashboard() {
                   type="text"
                   placeholder="Image URL"
                   value={newCategory.image}
-                  onChange={(e) => setNewCategory({...newCategory, image: e.target.value})}
+                  onChange={(e) => setNewCategory({ ...newCategory, image: e.target.value })}
                   className="border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   required
                 />
@@ -973,7 +1109,7 @@ export default function AdminDashboard() {
                           <div className="text-sm md:text-base text-gray-400 ml-4 whitespace-nowrap">
                             {new Date(entry.timestamp).toLocaleDateString()}
                             <br />
-                            {new Date(entry.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            {new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </div>
                         </div>
                       </div>
@@ -1074,7 +1210,7 @@ export default function AdminDashboard() {
                   <label className="block text-sm md:text-base font-medium text-gray-600 mb-2">Phone</label>
                   <input
                     type="tel"
-                    defaultValue="+250 788 123 456"
+                    defaultValue="+250 788 688 374"
                     className="w-full border border-gray-300 p-3 md:p-4 rounded text-sm md:text-base"
                   />
                 </div>
@@ -1113,6 +1249,290 @@ export default function AdminDashboard() {
                 Order tracking functionality is under development.
                 <br />
                 This would display order status, tracking numbers, and customer information.
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Product View/Edit Modal */}
+        {viewProductModal && selectedProduct && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-bold text-black">Edit Product</h2>
+                  <button
+                    onClick={() => setViewProductModal(false)}
+                    className="text-gray-500 hover:text-gray-700 text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+              <form onSubmit={handleUpdateProduct} className="p-6 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Name (English)</label>
+                    <input
+                      type="text"
+                      value={editProduct.nameEn}
+                      onChange={(e) => setEditProduct({ ...editProduct, nameEn: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Name (Kinyarwanda)</label>
+                    <input
+                      type="text"
+                      value={editProduct.nameRw}
+                      onChange={(e) => setEditProduct({ ...editProduct, nameRw: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description (English)</label>
+                    <textarea
+                      value={editProduct.descriptionEn}
+                      onChange={(e) => setEditProduct({ ...editProduct, descriptionEn: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      rows={3}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description (Kinyarwanda)</label>
+                    <textarea
+                      value={editProduct.descriptionRw}
+                      onChange={(e) => setEditProduct({ ...editProduct, descriptionRw: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      rows={3}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                    <input
+                      type="number"
+                      value={editProduct.price}
+                      onChange={(e) => setEditProduct({ ...editProduct, price: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                    <input
+                      type="number"
+                      value={editProduct.stockQuantity}
+                      onChange={(e) => setEditProduct({ ...editProduct, stockQuantity: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <input
+                      type="text"
+                      value={editProduct.category}
+                      onChange={(e) => setEditProduct({ ...editProduct, category: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+                    <input
+                      type="text"
+                      value={editProduct.brand}
+                      onChange={(e) => setEditProduct({ ...editProduct, brand: e.target.value })}
+                      className="w-full border border-gray-300 p-3 rounded"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setViewProductModal(false)}
+                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-black text-gold rounded hover:bg-gray-800"
+                  >
+                    Update Product
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Change Product Image Modal */}
+        {changeImageModal && selectedProduct && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-gray-200">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-bold text-black">Change Product Images</h2>
+                  <button
+                    onClick={() => setChangeImageModal(false)}
+                    className="text-gray-500 hover:text-gray-700 text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-3 mb-4">
+                    <button
+                      type="button"
+                      onClick={() => setImageOption('url')}
+                      className={`px-4 py-2 rounded text-sm font-medium flex items-center gap-2 ${imageOption === 'url' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
+                        }`}
+                    >
+                      <LinkIcon className="w-4 h-4" />
+                      URL
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setImageOption('camera')}
+                      className={`px-4 py-2 rounded text-sm font-medium flex items-center gap-2 ${imageOption === 'camera' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
+                        }`}
+                    >
+                      <Camera className="w-4 h-4" />
+                      Camera
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setImageOption('upload')}
+                      className={`px-4 py-2 rounded text-sm font-medium flex items-center gap-2 ${imageOption === 'upload' ? 'bg-black text-gold' : 'bg-gray-200 text-gray-700'
+                        }`}
+                    >
+                      <Upload className="w-4 h-4" />
+                      Upload
+                    </button>
+                  </div>
+
+                  {imageOption === 'url' && (
+                    <div className="space-y-3">
+                      <input
+                        type="url"
+                        placeholder="Enter image URL"
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                        className="w-full border border-gray-300 p-3 rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (imageUrl.trim()) {
+                            setEditProduct({ ...editProduct, images: [...editProduct.images, imageUrl.trim()] });
+                            setImageUrl('');
+                          }
+                        }}
+                        className="bg-gold text-black px-4 py-2 rounded font-semibold hover:bg-yellow-600 flex items-center gap-2"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Add URL
+                      </button>
+                    </div>
+                  )}
+
+                  {imageOption === 'camera' && (
+                    <div className="space-y-3">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                              const dataUrl = e.target?.result as string;
+                              setEditProduct({ ...editProduct, images: [...editProduct.images, dataUrl] });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="w-full p-2"
+                      />
+                      <p className="text-sm text-gray-600">Take a photo using your camera</p>
+                    </div>
+                  )}
+
+                  {imageOption === 'upload' && (
+                    <div className="space-y-3">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          files.forEach(file => {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                              const dataUrl = e.target?.result as string;
+                              setEditProduct({ ...editProduct, images: [...editProduct.images, dataUrl] });
+                            };
+                            reader.readAsDataURL(file);
+                          });
+                        }}
+                        className="w-full p-2"
+                      />
+                      <p className="text-sm text-gray-600">Select multiple images from your device</p>
+                    </div>
+                  )}
+
+                  {/* Image Preview */}
+                  {editProduct.images.length > 0 && (
+                    <div className="mt-4">
+                      <h4 className="text-sm font-semibold text-black mb-3">Images ({editProduct.images.length})</h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {editProduct.images.map((image, index) => (
+                          <div key={index} className="relative">
+                            <img
+                              src={image}
+                              alt={`Product image ${index + 1}`}
+                              className="w-full h-20 object-cover rounded border-2 border-gray-200"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newImages = editProduct.images.filter((_, i) => i !== index);
+                                setEditProduct({ ...editProduct, images: newImages });
+                              }}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex justify-end gap-3 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setChangeImageModal(false)}
+                      className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleUpdateProductImages}
+                      className="px-4 py-2 bg-black text-gold rounded hover:bg-gray-800"
+                    >
+                      Update Images
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

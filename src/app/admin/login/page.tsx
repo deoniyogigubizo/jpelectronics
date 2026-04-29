@@ -6,8 +6,9 @@ import CartDrawer from '@/components/CartDrawer';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { CartProvider } from '@/context/CartContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,14 @@ export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // If already logged in, redirect to dashboard
+    const isLoggedIn = localStorage.getItem('jptech-admin');
+    if (isLoggedIn) {
+      router.push('/admin/dashboard');
+    }
+  }, [router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +42,13 @@ export default function AdminLogin() {
     <LanguageProvider>
       <CartProvider>
         <div className="min-h-screen bg-beige flex items-center justify-center py-12">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+            <button
+              onClick={() => router.back()}
+              className="absolute top-4 left-4 border-t border-b border-l-0 border-r-0 ml-4 mr-1 bg-transparent text-gray-600 p-1 text-sm"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
             <h1 className="text-2xl font-bold mb-6 text-center">{t('admin.login')}</h1>
 
             {error && (
