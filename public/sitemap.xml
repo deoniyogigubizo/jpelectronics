@@ -4,200 +4,314 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage - High Priority - JP Tech, JP Electronics, Electronic Components Rwanda -->
+  <!-- ==================== CORE PAGES ==================== -->
+
+  <!-- Homepage -->
   <url>
     <loc>https://jpelectronics.vercel.app/</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Explore / Shop All -->
+  <url>
+    <loc>https://jpelectronics.vercel.app/explore</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
 
   <!-- About Page -->
   <url>
     <loc>https://jpelectronics.vercel.app/about</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <!-- Contact Page -->
   <url>
     <loc>https://jpelectronics.vercel.app/contact</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <!-- FAQ Page -->
   <url>
     <loc>https://jpelectronics.vercel.app/faq</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Explore Page -->
-  <url>
-    <loc>https://jpelectronics.vercel.app/explore</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Search Page -->
-  <url>
-    <loc>https://jpelectronics.vercel.app/search</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- Track Order Page -->
   <url>
     <loc>https://jpelectronics.vercel.app/track</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
   </url>
 
-  <!-- Product Categories - High Priority for SEO -->
+  <!-- ==================== PRODUCT CATEGORIES ==================== -->
+  <!-- Priority tier 1 — highest traffic, flagship categories -->
+
   <url>
     <loc>https://jpelectronics.vercel.app/category/smartphones</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/laptops</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/computers</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://jpelectronics.vercel.app/category/computers</loc>
-    <lastmod>2026-04-29</lastmod>
+    <loc>https://jpelectronics.vercel.app/category/tablets</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/smart-tvs</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/category/tvs</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/category/appliances</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Priority tier 2 — strong search demand categories -->
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/audio-systems</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/headphones</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/speakers</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/gaming-consoles</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/category/wearables</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://jpelectronics.vercel.app/category/solar</loc>
-    <lastmod>2026-04-29</lastmod>
+    <loc>https://jpelectronics.vercel.app/category/smart-watches</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/category/cameras</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/solar</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/monitors</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://jpelectronics.vercel.app/category/mobility</loc>
-    <lastmod>2026-04-29</lastmod>
+    <loc>https://jpelectronics.vercel.app/category/smart-home</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://jpelectronics.vercel.app/category/security</loc>
-    <lastmod>2026-04-29</lastmod>
+    <loc>https://jpelectronics.vercel.app/category/networking</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/printers-scanners</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/keyboards-mice</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/chargers-cables</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/power-banks</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Priority tier 3 — niche / emerging categories -->
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/drones</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- Sample Product Pages - Electronic Components & Tech Products -->
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/vr-headsets</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://jpelectronics.vercel.app/category/mobility</loc>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ==================== PRODUCT PAGES ==================== -->
+  <!-- Add your real product slugs below. These are examples — replace with actual live product URLs. -->
+
   <url>
     <loc>https://jpelectronics.vercel.app/product/iphone-15-pro-max</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/samsung-galaxy-s24</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/macbook-pro-m3</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/dell-latitude-laptop</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/samsung-55-inch-4k-tv</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/lg-washing-machine</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/solar-power-system</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/apple-watch-ultra</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/canon-eos-r5-camera</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/electric-scooter</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://jpelectronics.vercel.app/product/wireless-security-camera</loc>
-    <lastmod>2026-04-29</lastmod>
+    <lastmod>2026-04-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>

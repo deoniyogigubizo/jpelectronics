@@ -13,43 +13,43 @@ export default async function generateSitemap() {
       url: '/',
       changefreq: 'daily',
       priority: 1.0,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
     {
       url: '/about',
       changefreq: 'monthly',
       priority: 0.8,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
     {
       url: '/contact',
       changefreq: 'monthly',
       priority: 0.8,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
     {
       url: '/faq',
       changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
     {
       url: '/explore',
       changefreq: 'daily',
       priority: 0.9,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
     {
       url: '/search',
       changefreq: 'daily',
       priority: 0.6,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
     {
       url: '/track',
       changefreq: 'monthly',
       priority: 0.5,
-      lastmod: new Date().toISOString().split('T')[0],
+      lastmod: new Date().toISOString(),
     },
   ];
 
@@ -58,7 +58,7 @@ export default async function generateSitemap() {
     url: `/category/${category.slug}`,
     changefreq: 'daily',
     priority: 0.9,
-    lastmod: new Date().toISOString().split('T')[0],
+    lastmod: new Date().toISOString(),
   }));
 
   // Product pages
@@ -66,7 +66,7 @@ export default async function generateSitemap() {
     url: `/product/${product._id}`,
     changefreq: 'weekly',
     priority: product.featured ? 0.8 : 0.6,
-    lastmod: product.updatedAt ? new Date(product.updatedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+    lastmod: product.updatedAt ? new Date(product.updatedAt).toISOString() : new Date().toISOString(),
   }));
 
   // Combine all pages
