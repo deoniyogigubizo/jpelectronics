@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Share_Tech_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Share_Tech_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { Providers } from '@/components/Providers';
 import BottomNavbar from '@/components/BottomNavbar';
@@ -21,6 +21,12 @@ const shareTechMono = Share_Tech_Mono({
   weight: "400",
 });
 
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "JP Tech — Electronics Store Rwanda",
   description: "Your trusted electronics marketplace in Rwanda. Shop smartphones, laptops, TVs, appliances, wearables, solar products and more.",
@@ -34,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${shareTechMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${shareTechMono.variable} ${outfit.variable} antialiased`}>
         <Providers>
           <div className="min-h-screen pb-20 md:pb-0">
             {children}

@@ -1,537 +1,24 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
-import HeroVideo from '@/components/HeroVideo';
+import dynamic from 'next/dynamic';
 import CategoryTile from '@/components/CategoryTile';
-import { getAllProducts, getCategories } from '@/lib/db';
+import RepairServicesPanel from '@/components/RepairServicesPanel';
+import { getCategories } from '@/lib/db';
 import { Store, Truck, Shield, MessageCircle, Package, TrendingDown, Users, AlertTriangle, BarChart3, Recycle, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
-import ProductGrid from '@/components/ProductGrid';
-import AdModal from '@/components/AdModal';
+import Image from 'next/image';
+import Preloader from '@/components/Preloader';
 
-export const dynamic = 'force-dynamic';
+const HeroVideo = dynamic(() => import('@/components/HeroVideo'));
+const AlmostGonePanel = dynamic(() => import('@/components/panels/AlmostGonePanel'));
+const PriceJustDroppedPanel = dynamic(() => import('@/components/panels/PriceJustDroppedPanel'));
+const JustLandedPanel = dynamic(() => import('@/components/panels/JustLandedPanel'));
+const ProductGridPanel = dynamic(() => import('@/components/panels/ProductGridPanel'));
+
+export const revalidate = 60;
 
 // Panel components
-function AlmostGonePanel({ products }: { products: any[] }) {
-  const almostGone = products.filter(p => p.stockQuantity > 0 && p.stockQuantity <= 10).sort(() => Math.random() - 0.5).slice(0, 9);
-  if (!almostGone.length) return null;
-
-  const heroProduct = almostGone[0];
-  const galleryProducts = almostGone.slice(1);
-
-  const formatPrice = (price: number | undefined) => {
-    if (price === undefined || price === null) {
-      return '0 RWF';
-    }
-    return `${price.toLocaleString()} RWF`;
-  };
-
-  return (
-    <section className="py-2 bg-red-50 border-l-4 border-red-500">
-      <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-red-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Only a few left in stock — order soon!</h2>
-        </div>
-
-        {/* Mobile layout */}
-        <div className="md:hidden grid grid-cols-2 gap-2">
-          {almostGone.slice(0, 4).map((product) => (
-            <Link key={product._id} href={`/product/${product._id}`}>
-              <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-                <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                  {product.images && product.images.length > 0 ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name.en}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <ShoppingCart className="w-6 h-6" />
-                    </div>
-                  )}
-                  <span className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full">
-                    {product.stockQuantity} left
-                  </span>
-                </div>
-                <div className="p-2">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                    {product.brand}
-                  </p>
-                  <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                    {product.name.en}
-                  </h4>
-                  <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                    {(product.description?.en || '').substring(0, 60)}...
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-bold text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.compareAtPrice && product.compareAtPrice > product.price && (
-                      <span className="text-xs text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                        {formatPrice(product.compareAtPrice)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[20%_80%] gap-6">
-          {/* Left Column: Tall Hero Card */}
-          <Link href={`/product/${heroProduct._id}`}>
-            <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
-              <div className="relative aspect-[3/4] overflow-hidden bg-beige">
-                {heroProduct.images && heroProduct.images.length > 0 ? (
-                  <img
-                    src={heroProduct.images[0]}
-                    alt={heroProduct.name.en}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <ShoppingCart className="w-12 h-12" />
-                  </div>
-                )}
-                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                  {heroProduct.stockQuantity} left
-                </span>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
-                  {heroProduct.brand}
-                </p>
-                <h3 className="font-semibold text-black mb-2 text-base">
-                  {heroProduct.name.en}
-                </h3>
-                <p className="text-gray-600 mb-3 text-xs leading-relaxed">
-                  {heroProduct.description?.en || 'No description available'}
-                </p>
-                <div className="mb-3">
-                  <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                    {formatPrice(heroProduct.price)}
-                  </span>
-                  {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                    <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                      {formatPrice(heroProduct.compareAtPrice)}
-                    </span>
-                  )}
-                </div>
-                <button className="w-full py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors text-sm">
-                  Shop Now - Limited Stock!
-                </button>
-              </div>
-            </div>
-          </Link>
-
-          {/* Right Column: Gallery Grid */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2">
-            {galleryProducts.map((product) => (
-              <Link key={product._id} href={`/product/${product._id}`}>
-                <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-                  <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                    {product.images && product.images.length > 0 ? (
-                      <img
-                        src={product.images[0]}
-                        alt={product.name.en}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <ShoppingCart className="w-6 h-6" />
-                      </div>
-                    )}
-                    <span className="absolute top-1 right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full">
-                      {product.stockQuantity} left
-                    </span>
-                  </div>
-                  <div className="p-2">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                      {product.brand}
-                    </p>
-                    <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                      {product.name.en}
-                    </h4>
-                    <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                      {(product.description?.en || '').substring(0, 60)}...
-                    </p>
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                        {formatPrice(product.price)}
-                      </span>
-                      {product.compareAtPrice && product.compareAtPrice > product.price && (
-                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                          {formatPrice(product.compareAtPrice)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div className="flex justify-end mt-4">
-          <Link href="/category" className="text-xs border border-gold/50 text-gold px-3 py-1 rounded hover:bg-gold/10 transition-colors">
-            View More
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PriceJustDroppedPanel({ products }: { products: any[] }) {
-  const dropped = products.filter(p => p.discount > 0 && p.discount <= 20).sort(() => Math.random() - 0.5).slice(0, 9);
-  if (!dropped.length) return null;
-
-  const heroProduct = dropped[0];
-  const galleryProducts = dropped.slice(1);
-
-  const formatPrice = (price: number | undefined) => {
-    if (price === undefined || price === null) {
-      return '0 RWF';
-    }
-    return `${price.toLocaleString()} RWF`;
-  };
-
-  return (
-    <section className="py-2 bg-green-50">
-      <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Price Just Dropped</h2>
-        </div>
-        <p className="text-gray-600 mb-6">Limited-time price reductions — save now before they go back up</p>
-
-        {/* Mobile layout */}
-        <div className="md:hidden grid grid-cols-2 gap-2">
-          {dropped.slice(0, 4).map((product) => (
-            <Link key={product._id} href={`/product/${product._id}`}>
-              <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-                <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                  {product.images && product.images.length > 0 ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name.en}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <ShoppingCart className="w-6 h-6" />
-                    </div>
-                  )}
-                  <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                    -{product.discount}%
-                  </div>
-                </div>
-                <div className="p-2">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                    {product.brand}
-                  </p>
-                  <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                    {product.name.en}
-                  </h4>
-                  <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                    {(product.description?.en || '').substring(0, 60)}...
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-bold text-gold">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.compareAtPrice && product.compareAtPrice > product.price && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPrice(product.compareAtPrice)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[80%_20%] gap-6">
-          {/* Left Column: Gallery Grid */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2">
-            {galleryProducts.map((product) => (
-              <Link key={product._id} href={`/product/${product._id}`}>
-                <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-                  <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                    {product.images && product.images.length > 0 ? (
-                      <img
-                        src={product.images[0]}
-                        alt={product.name.en}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <ShoppingCart className="w-6 h-6" />
-                      </div>
-                    )}
-                    <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                      -{product.discount}%
-                    </div>
-                  </div>
-                  <div className="p-2">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                      {product.brand}
-                    </p>
-                    <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                      {product.name.en}
-                    </h4>
-                    <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                      {(product.description?.en || '').substring(0, 60)}...
-                    </p>
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                        {formatPrice(product.price)}
-                      </span>
-                      {product.compareAtPrice && product.compareAtPrice > product.price && (
-                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                          {formatPrice(product.compareAtPrice)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Right Column: Tall Hero Card */}
-          <Link href={`/product/${heroProduct._id}`}>
-            <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
-              <div className="relative aspect-[3/4] overflow-hidden bg-beige">
-                {heroProduct.images && heroProduct.images.length > 0 ? (
-                  <img
-                    src={heroProduct.images[0]}
-                    alt={heroProduct.name.en}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <ShoppingCart className="w-12 h-12" />
-                  </div>
-                )}
-                <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                  -{heroProduct.discount}%
-                </div>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
-                  {heroProduct.brand}
-                </p>
-                <h3 className="font-semibold text-black mb-2 text-base">
-                  {heroProduct.name.en}
-                </h3>
-                <p className="text-gray-600 mb-3 text-xs leading-relaxed">
-                  {heroProduct.description?.en || 'No description available'}
-                </p>
-                <div className="mb-3">
-                  <span className="text-lg font-bold text-gold">
-                    {formatPrice(heroProduct.price)}
-                  </span>
-                  {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                    <span className="text-sm text-gray-400 line-through ml-2">
-                      {formatPrice(heroProduct.compareAtPrice)}
-                    </span>
-                  )}
-                </div>
-                <button className="w-full py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
-                  Shop Now - Limited Time!
-                </button>
-              </div>
-            </div>
-          </Link>
-        </div>
-        <div className="flex justify-end mt-4">
-          <Link href="/category" className="text-xs border border-gold/50 text-gold px-3 py-1 rounded hover:bg-gold/10 transition-colors">
-            View More
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function JustLandedPanel({ products }: { products: any[] }) {
-  const newArrivals = [...products].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).sort(() => Math.random() - 0.5).slice(0, 9);
-  if (!newArrivals.length) return null;
-
-  const heroProduct = newArrivals[0];
-  const galleryProducts = newArrivals.slice(1);
-
-  const formatPrice = (price: number | undefined) => {
-    if (price === undefined || price === null) {
-      return '0 RWF';
-    }
-    return `${price.toLocaleString()} RWF`;
-  };
-
-  return (
-    <section className="py-2 bg-green-50">
-      <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Just Landed</h2>
-        </div>
-
-        {/* Mobile layout */}
-        <div className="md:hidden grid grid-cols-2 gap-2">
-          {newArrivals.slice(0, 4).map((product) => (
-            <Link key={product._id} href={`/product/${product._id}`}>
-              <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-                <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                  {product.images && product.images.length > 0 ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name.en}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <ShoppingCart className="w-6 h-6" />
-                    </div>
-                  )}
-                  <span className="absolute top-1 left-1 bg-green-500 text-white text-xs px-1 py-0.5 rounded">
-                    New Arrival
-                  </span>
-                </div>
-                <div className="p-2">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                    {product.brand}
-                  </p>
-                  <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                    {product.name.en}
-                  </h4>
-                  <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                    {(product.description?.en || '').substring(0, 60)}...
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-bold text-gold">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.compareAtPrice && product.compareAtPrice > product.price && (
-                      <span className="text-xs text-gray-400 line-through">
-                        {formatPrice(product.compareAtPrice)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[20%_80%] gap-6">
-          {/* Left Column: Tall Hero Card */}
-          <Link href={`/product/${heroProduct._id}`}>
-            <div className="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
-              <div className="relative aspect-[3/4] overflow-hidden bg-beige">
-                {heroProduct.images && heroProduct.images.length > 0 ? (
-                  <img
-                    src={heroProduct.images[0]}
-                    alt={heroProduct.name.en}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <ShoppingCart className="w-12 h-12" />
-                  </div>
-                )}
-                <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                  New Arrival
-                </span>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">
-                  {heroProduct.brand}
-                </p>
-                <h3 className="font-semibold text-black mb-2 text-base">
-                  {heroProduct.name.en}
-                </h3>
-                <p className="text-gray-600 mb-3 text-xs leading-relaxed">
-                  {heroProduct.description?.en || 'No description available'}
-                </p>
-                <div className="mb-3">
-                  <span className="text-xl font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                    {formatPrice(heroProduct.price)}
-                  </span>
-                  {heroProduct.compareAtPrice && heroProduct.compareAtPrice > heroProduct.price && (
-                    <span className="text-base text-gray-400 line-through ml-2" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                      {formatPrice(heroProduct.compareAtPrice)}
-                    </span>
-                  )}
-                </div>
-                <button className="w-full py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors text-sm">
-                  Shop Now - New Arrival!
-                </button>
-              </div>
-            </div>
-          </Link>
-
-          {/* Right Column: Gallery Grid */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2">
-            {galleryProducts.map((product) => (
-              <Link key={product._id} href={`/product/${product._id}`}>
-                <div className="bg-white rounded-lg overflow-hidden shadow-md group relative">
-                  <div className="relative aspect-[3/2] overflow-hidden bg-beige">
-                    {product.images && product.images.length > 0 ? (
-                      <img
-                        src={product.images[0]}
-                        alt={product.name.en}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <ShoppingCart className="w-6 h-6" />
-                      </div>
-                    )}
-                    <span className="absolute top-1 left-1 bg-green-500 text-white text-xs px-1 py-0.5 rounded">
-                      New Arrival
-                    </span>
-                  </div>
-                  <div className="p-2">
-                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                      {product.brand}
-                    </p>
-                    <h4 className="font-medium text-black mb-1 text-xs line-clamp-2 min-h-[1.5rem]">
-                      {product.name.en}
-                    </h4>
-                    <p className="text-xs text-gray-600 mb-1 line-clamp-2">
-                      {(product.description?.en || '').substring(0, 60)}...
-                    </p>
-                    <div className="flex items-center gap-1">
-                      <span className="text-sm font-black text-gold" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                        {formatPrice(product.price)}
-                      </span>
-                      {product.compareAtPrice && product.compareAtPrice > product.price && (
-                        <span className="text-sm text-gray-400 line-through" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>
-                          {formatPrice(product.compareAtPrice)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div className="flex justify-end mt-4">
-          <Link href="/category" className="text-xs border border-gold/50 text-gold px-3 py-1 rounded hover:bg-gold/10 transition-colors">
-            View More
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function LocallyPopularPanel() {
   return (
@@ -621,9 +108,166 @@ function EducationPanel() {
   );
 }
 
+function UpgradePanel() {
+  return (
+    <section className="py-2 sm:py-2 bg-cyan-50">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center gap-3 mb-4 sm:mb-8">
+          <Recycle className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-cyan-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Upgrade Your Old Device</h2>
+        </div>
+        <div className="bg-white rounded-lg p-3 sm:p-6 shadow flex flex-col md:flex-row items-center gap-4 sm:gap-6">
+          <div className="flex-1">
+            <h3 className="text-xl font-bold mb-3">Own a 2021-2022 device?</h3>
+            <p className="text-gray-600 mb-4">See what customers with similar devices upgraded to. Find your next tech leap.</p>
+            <Link href="/category/smartphones" className="text-cyan-600 font-semibold hover:underline">
+              Compare Upgrade Options →
+            </Link>
+          </div>
+          <div className="flex-1 grid grid-cols-2 gap-1 sm:gap-2">
+            <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
+              <div className="font-bold text-sm sm:text-base">From iPhone 13 <span className="opacity-50">to iPhone 15</span></div>
+            </div>
+            <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
+              <div className="font-bold text-sm sm:text-base">From Galaxy S21 <span className="opacity-50">to S24 Ultra</span></div>
+            </div>
+            <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
+              <div className="font-bold text-sm sm:text-base">From AirPods Pro <span className="opacity-50">to AirPods Pro 2</span></div>
+            </div>
+            <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
+              <div className="font-bold text-sm sm:text-base">From iPad Air <span className="opacity-50">to iPad Air M2</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CommunityPanel() {
+  return (
+    <section className="py-2 bg-teal-50">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center gap-2 mb-4">
+          <Users className="w-6 h-6 text-teal-600" />
+          <h2 className="text-lg md:text-xl font-bold text-teal-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>📊 Community Picked</h2>
+        </div>
+        <div className="bg-white rounded-lg p-4 shadow">
+          <h3 className="text-lg font-bold mb-2">Which Laptop Should You Buy?</h3>
+          <p className="text-sm text-gray-600 mb-4">1,427 customers compared these 3 laptops — here's what they chose</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="col-span-2 md:col-span-1 border-2 border-teal-500 rounded-lg p-3 relative">
+              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-teal-500 text-white text-xs px-2 py-1 rounded-full">
+                89% CHOSE THIS
+              </div>
+              <div className="text-center pt-2">
+                <div className="text-xl mb-1">💻</div>
+                <h4 className="font-bold text-sm">MacBook Air M2</h4>
+                <p className="text-xs text-gray-500">Best Overall</p>
+                <p className="text-teal-600 font-semibold mt-1">1,267 votes</p>
+              </div>
+            </div>
+            <div className="border rounded-lg p-3 text-center">
+              <div className="text-xl mb-1">💻</div>
+              <h4 className="font-bold text-sm">Dell XPS 15</h4>
+              <p className="text-xs text-gray-500">Best Performance</p>
+              <p className="text-gray-400 mt-1">112 votes (8%)</p>
+            </div>
+            <div className="border rounded-lg p-3 text-center">
+              <div className="text-xl mb-1">💻</div>
+              <h4 className="font-bold text-sm">ThinkPad X1</h4>
+              <p className="text-xs text-gray-500">Best for Work</p>
+              <p className="text-gray-400 mt-1">58 votes (4%)</p>
+            </div>
+          </div>
+          <div className="mt-6 text-center">
+            <Link href="/category/laptops" className="text-teal-600 font-semibold hover:underline">
+              Compare All Laptops →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RealBuyerStory() {
+  return (
+    <section className="py-2 bg-orange-50">
+      <div className="container mx-auto px-4">
+        <div className="mb-4">
+          <h2 className="text-lg md:text-2xl font-bold text-orange-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>💬 Real Buyer Story</h2>
+        </div>
+        <div className="bg-white rounded-lg p-4 shadow max-w-2xl mx-auto">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold text-orange-600 text-sm">S.K</div>
+            <div>
+              <div className="font-semibold text-sm">Samuel Kayondo</div>
+              <div className="text-xs text-gray-500">Kigali — Verified Purchase</div>
+            </div>
+          </div>
+          <h3 className="font-bold text-base mb-2">"The Samsung S24 Ultra changed my photography game"</h3>
+          <p className="text-gray-600 mb-3 text-sm">
+            "I researched for 3 weeks before buying. JP Tech's delivery was fast (next day in Kigali!), and the phone arrived in perfect condition.
+            The camera zoom is incredible for wedding photography — I've already recommended this to 5 colleagues. Worth every RWF."
+          </p>
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <span key={i} className="text-yellow-400 text-sm">★</span>
+            ))}
+            <span className="text-gray-500 ml-2 text-xs">100% helpful (23 people)</span>
+          </div>
+          <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-200">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Rank our service:</span>
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className="text-yellow-400 cursor-pointer hover:text-yellow-500">★</span>
+                ))}
+              </div>
+            </div>
+            <button className="border border-gold/20 text-gold px-3 py-1 rounded text-sm hover:bg-gold/10">
+              Add Your Review
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TrustStrip() {
+  return (
+    <section className="bg-gradient-to-r from-black to-gray-800 text-white py-2">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="flex flex-col items-center gap-2">
+            <Truck className="w-8 h-8 text-yellow-400" />
+            <h3 className="font-semibold">Fast Delivery</h3>
+            <p className="text-sm text-gray-400">Kigali: 1-2 days</p>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <MessageCircle className="w-8 h-8 text-yellow-400" />
+            <h3 className="font-semibold">WhatsApp Support</h3>
+            <p className="text-sm text-gray-400">+250 790 336 683</p>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Shield className="w-8 h-8 text-yellow-400" />
+            <h3 className="font-semibold">1 Year Warranty</h3>
+            <p className="text-sm text-gray-400">All products</p>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Store className="w-8 h-8 text-yellow-400" />
+            <h3 className="font-semibold">Cash on Delivery</h3>
+            <p className="text-sm text-gray-400">Pay on delivery</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default async function HomePage() {
-  const allProducts = await getAllProducts();
-  const categoryProducts = allProducts.filter(p => p.category);
   const categories = await getCategories();
 
   return (
@@ -633,31 +277,34 @@ export default async function HomePage() {
       {/* Hero Video Section */}
       <HeroVideo />
 
-        {/* Category Tiles */}
-        <section className="py-1 md:py-2 bg-beige">
-          <div className="container mx-auto px-1 md:px-2">
-            <h2 className="text-xs md:text-xl font-bold mb-1 md:mb-4 text-center">
-              I am looking for
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1 md:gap-2">
-              {categories.map((cat: any) => (
-                <CategoryTile key={cat._id} category={cat} />
-              ))}
-            </div>
+      {/* Category Tiles */}
+      <section className="py-1 md:py-2 bg-beige">
+        <div className="container mx-auto px-1 md:px-2">
+          <h2 className="text-xs md:text-xl font-bold mb-1 md:mb-4 text-center">
+            I am looking for
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1 md:gap-2">
+            {categories.map((cat: any) => (
+              <CategoryTile key={cat._id} category={cat} />
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* Panel 1: Almost Gone */}
-      <AlmostGonePanel products={categoryProducts} />
+      <AlmostGonePanel />
 
       {/* Panel 2: Price Just Dropped */}
-      <PriceJustDroppedPanel products={categoryProducts} />
+      <PriceJustDroppedPanel />
 
       {/* Panel 3: Just Landed */}
-      <JustLandedPanel products={categoryProducts} />
+      <JustLandedPanel />
 
       {/* Panel 4: Locally Popular */}
       <LocallyPopularPanel />
+
+      {/* Panel 4.5: Repair Services */}
+      <RepairServicesPanel />
 
       {/* Panel 5: Build Your Bundle */}
       <section className="py-2 bg-green-50">
@@ -718,163 +365,23 @@ export default async function HomePage() {
       <EducationPanel />
 
       {/* Panel 7: Upgrade Your Device */}
-      <section className="py-2 sm:py-2 bg-cyan-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center gap-3 mb-4 sm:mb-8">
-            <Recycle className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-cyan-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Upgrade Your Old Device</h2>
-          </div>
-          <div className="bg-white rounded-lg p-3 sm:p-6 shadow flex flex-col md:flex-row items-center gap-4 sm:gap-6">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-3">Own a 2021-2022 device?</h3>
-              <p className="text-gray-600 mb-4">See what customers with similar devices upgraded to. Find your next tech leap.</p>
-              <Link href="/category/smartphones" className="text-cyan-600 font-semibold hover:underline">
-                Compare Upgrade Options →
-              </Link>
-            </div>
-            <div className="flex-1 grid grid-cols-2 gap-1 sm:gap-2">
-              <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
-                <div className="font-bold text-sm sm:text-base">From iPhone 13 <span className="opacity-50">to iPhone 15</span></div>
-              </div>
-              <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
-                <div className="font-bold text-sm sm:text-base">From Galaxy S21 <span className="opacity-50">to S24 Ultra</span></div>
-              </div>
-              <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
-                <div className="font-bold text-sm sm:text-base">From AirPods Pro <span className="opacity-50">to AirPods Pro 2</span></div>
-              </div>
-              <div className="bg-gray-50 p-1 sm:p-2 rounded text-center">
-                <div className="font-bold text-sm sm:text-base">From iPad Air <span className="opacity-50">to iPad Air M2</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <UpgradePanel />
 
       {/* Panel 8: Community Picked */}
-      <section className="py-2 bg-teal-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center gap-2 mb-4">
-            <Users className="w-6 h-6 text-teal-600" />
-            <h2 className="text-lg md:text-xl font-bold text-teal-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>📊 Community Picked</h2>
-          </div>
-          <div className="bg-white rounded-lg p-4 shadow">
-            <h3 className="text-lg font-bold mb-2">Which Laptop Should You Buy?</h3>
-            <p className="text-sm text-gray-600 mb-4">1,427 customers compared these 3 laptops — here\'s what they chose</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div className="col-span-2 md:col-span-1 border-2 border-teal-500 rounded-lg p-3 relative">
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-teal-500 text-white text-xs px-2 py-1 rounded-full">
-                  89% CHOSE THIS
-                </div>
-                <div className="text-center pt-2">
-                  <div className="text-xl mb-1">💻</div>
-                  <h4 className="font-bold text-sm">MacBook Air M2</h4>
-                  <p className="text-xs text-gray-500">Best Overall</p>
-                  <p className="text-teal-600 font-semibold mt-1">1,267 votes</p>
-                </div>
-              </div>
-              <div className="border rounded-lg p-3 text-center">
-                <div className="text-xl mb-1">💻</div>
-                <h4 className="font-bold text-sm">Dell XPS 15</h4>
-                <p className="text-xs text-gray-500">Best Performance</p>
-                <p className="text-gray-400 mt-1">112 votes (8%)</p>
-              </div>
-              <div className="border rounded-lg p-3 text-center">
-                <div className="text-xl mb-1">💻</div>
-                <h4 className="font-bold text-sm">ThinkPad X1</h4>
-                <p className="text-xs text-gray-500">Best for Work</p>
-                <p className="text-gray-400 mt-1">58 votes (4%)</p>
-              </div>
-            </div>
-            <div className="mt-6 text-center">
-              <Link href="/category/laptops" className="text-teal-600 font-semibold hover:underline">
-                Compare All Laptops →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CommunityPanel />
 
       {/* Product Grid */}
-      <section className="py-2 bg-gradient-to-r from-pink-50 to-rose-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-rose-700 mb-8" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>Featured Products</h2>
-          <ProductGrid products={allProducts} />
-        </div>
-      </section>
+      <ProductGridPanel />
 
       {/* Real Buyer Story */}
-      <section className="py-2 bg-orange-50">
-        <div className="container mx-auto px-4">
-          <div className="mb-4">
-            <h2 className="text-lg md:text-2xl font-bold text-orange-700" style={{ fontFamily: 'var(--font-share-tech-mono)' }}>💬 Real Buyer Story</h2>
-          </div>
-          <div className="bg-white rounded-lg p-4 shadow max-w-2xl mx-auto">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-full bg-orange-200 flex items-center justify-center font-bold text-orange-600 text-sm">S.K</div>
-              <div>
-                <div className="font-semibold text-sm">Samuel Kayondo</div>
-                <div className="text-xs text-gray-500">Kigali — Verified Purchase</div>
-              </div>
-            </div>
-            <h3 className="font-bold text-base mb-2">"The Samsung S24 Ultra changed my photography game"</h3>
-            <p className="text-gray-600 mb-3 text-sm">
-              "I researched for 3 weeks before buying. JP Tech\'s delivery was fast (next day in Kigali!), and the phone arrived in perfect condition.
-              The camera zoom is incredible for wedding photography — I\'ve already recommended this to 5 colleagues. Worth every RWF."
-            </p>
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-sm">★</span>
-              ))}
-              <span className="text-gray-500 ml-2 text-xs">100% helpful (23 people)</span>
-            </div>
-            <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-200">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">Rank our service:</span>
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 cursor-pointer hover:text-yellow-500">★</span>
-                  ))}
-                </div>
-              </div>
-              <button className="border border-gold/20 text-gold px-3 py-1 rounded text-sm hover:bg-gold/10">
-                Add Your Review
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <RealBuyerStory />
 
       {/* Trust Strip */}
-      <section className="bg-gradient-to-r from-black to-gray-800 text-white py-2">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="flex flex-col items-center gap-2">
-              <Truck className="w-8 h-8 text-yellow-400" />
-              <h3 className="font-semibold">Fast Delivery</h3>
-              <p className="text-sm text-gray-400">Kigali: 1-2 days</p>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <MessageCircle className="w-8 h-8 text-yellow-400" />
-              <h3 className="font-semibold">WhatsApp Support</h3>
-              <p className="text-sm text-gray-400">+250 790 336 683</p>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <Shield className="w-8 h-8 text-yellow-400" />
-              <h3 className="font-semibold">1 Year Warranty</h3>
-              <p className="text-sm text-gray-400">All products</p>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <Store className="w-8 h-8 text-yellow-400" />
-              <h3 className="font-semibold">Cash on Delivery</h3>
-              <p className="text-sm text-gray-400">Pay on delivery</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TrustStrip />
 
       <Footer />
       <CartDrawer />
-      <AdModal />
+      <Preloader />
     </div>
   );
 }

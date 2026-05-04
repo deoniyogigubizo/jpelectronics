@@ -12,6 +12,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-share-tech-mono: var(--font-share-tech-mono);
+  --font-outfit: var(--font-outfit);
 }
 
 :root {
@@ -134,4 +135,13 @@ body {
 /* Mobile responsive */
 @media (max-width: 768px) {
   .container { padding-left: 1rem; padding-right: 1rem; }
+}
+
+/* Preloader animations */
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
 }
